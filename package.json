@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
+    "@supabase/supabase-js": "^2.38.2",
     "@tremor/react": "^3.9.2",
     "next": "13.5.6",
     "react": "^18",
