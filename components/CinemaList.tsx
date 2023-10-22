@@ -42,7 +42,7 @@ export default function CinemaList() {
 
   useEffect(() => {
     fetchItems();
-  });
+  }, []);
 
   function handleSearchInputChange(e: ChangeEvent<HTMLInputElement> | null) {
     const value = e?.target?.value?.toLowerCase();
