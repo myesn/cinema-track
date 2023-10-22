@@ -4,7 +4,7 @@ import { CinemaDto } from "@/types/dto";
 import { ChangeEvent, useEffect, useState } from "react";
 import supabase from "@/supabse";
 
-export default (props: CinemaUpsertDialogProps) => {
+export default function CinemaUpsertDialog(props: CinemaUpsertDialogProps) {
   const isUpdate = !!props.defaultValue?.id;
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState<CinemaUpsertForm>({
@@ -74,7 +74,7 @@ export default (props: CinemaUpsertDialogProps) => {
       </Flex>
     </Card>
   );
-};
+}
 
 export interface CinemaUpsertDialogProps {
   defaultValue?: CinemaUpsertForm;

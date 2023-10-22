@@ -6,7 +6,7 @@ import SignIn from "@/components/SignIn";
 import { useEffect, useState } from "react";
 import supabase from "@/supabse";
 
-export default () => {
+export default function Home() {
   const [signinVisible, setSigninVisible] = useState(false);
   const [user, setUser] = useState<User>({});
 
@@ -60,7 +60,7 @@ export default () => {
       <CinemaList />
     </main>
   );
-};
+}
 
 interface User {
   email?: string;

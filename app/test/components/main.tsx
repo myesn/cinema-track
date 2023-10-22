@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import StatelessChild from "./stateless-child";
 
-export default () => {
+export default function Main() {
   const [familyName, setFamilyName] = useState("王");
   const [lastName, setLastName] = useState("小明");
   let fullName = `${familyName}${lastName}`;
@@ -75,4 +75,4 @@ export default () => {
       <StatelessChild text={fullName} />
     </>
   );
-};
+}

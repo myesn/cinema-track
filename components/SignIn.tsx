@@ -3,7 +3,7 @@ import { FaceSmileIcon } from "@heroicons/react/24/solid";
 import { ChangeEvent, useState } from "react";
 import supabase from "@/supabse";
 
-export default (props: SigninProps) => {
+export default function SignIn(props: SigninProps) {
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState<SigninForm>({
     email: "",
@@ -59,7 +59,7 @@ export default (props: SigninProps) => {
       </Flex>
     </Card>
   );
-};
+}
 
 export interface SigninProps {
   onSigninOk: () => Promise<void>;

@@ -8,7 +8,7 @@ import CinemalListItem from "./CinemaListItem";
 import CinemaUpsertDialog, { CinemaUpsertForm } from "./CinemaUpsertDialog";
 import { CinemaDto } from "@/types/dto";
 
-export default () => {
+export default function CinemaList() {
   const [isLoading, setIsLoading] = useState(true);
   const [keyword, setKeyword] = useState("");
   const [items, setItems] = useState<CinemaDto[]>([]);
@@ -42,7 +42,7 @@ export default () => {
 
   useEffect(() => {
     fetchItems();
-  }, []);
+  });
 
   function handleSearchInputChange(e: ChangeEvent<HTMLInputElement> | null) {
     const value = e?.target?.value?.toLowerCase();
@@ -87,7 +87,7 @@ export default () => {
 
       {!hasItems && (
         <>
-          <Text className="mb-1">没有看过 "{keyword}"，请添加：</Text>
+          <Text className="mb-1">没有看过 &quot;{keyword}&quot;，请添加：</Text>
           <CinemaUpsertDialog
             defaultValue={dialogDefaultValue}
             onUpsertOk={handleUpsertOk}
@@ -96,4 +96,4 @@ export default () => {
       )}
     </>
   );
-};
+}

@@ -1,5 +1,5 @@
 import Main from "./components/main";
 
-export default () => {
+export default function Test() {
   return <Main />;
-};
+}
