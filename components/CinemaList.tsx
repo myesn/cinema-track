@@ -16,47 +16,39 @@ export default () => {
   const [items, setItems] = useState<CinemaDto[]>([]);
   const [filteredItems, setFilteredItems] = useState<CinemaDto[]>([...items]);
 
-  const [isOpenDialog, setIsOpenDialog] = useState(true);
   const [dialogDefaultValue, setDialogDefaultValue] =
     useState<CinemaAddOrUpdateForm>();
   const hasItems = !isLoading && filteredItems.length > 0;
 
   async function fetchItems() {
-    try {
-      const { data, error } = await supabase()
-        .from("cinemas")
-        .select()
-        .order("updated_at", { ascending: false });
-      if (!error && data) {
-        const items: CinemaDto[] = data.map((x) => ({
-          id: x.id,
-          name: x.name,
-          remarks: x.remarks,
-          updated: new Date(x.updated_at).toLocaleDateString(),
-        }));
+    const { data, error } = await supabase()
+      .from("cinemas")
+      .select()
+      .order("updated_at", { ascending: false });
+    if (!error && data) {
+      const items: CinemaDto[] = data.map((x) => ({
+        id: x.id,
+        name: x.name,
+        remarks: x.remarks ?? "",
+        updated: new Date(x.updated_at).toLocaleDateString(),
+      }));
 
-        setItems([...items]);
-      }
-    } catch (e) {
-      console.log(e);
-    } finally {
-      setIsLoading(false);
+      setItems([...items]);
+      setFilteredItems([...items]);
     }
+
+    setIsLoading(false);
   }
 
   useEffect(() => {
     fetchItems();
   }, []);
 
-  useEffect(() => {
-    handleSearchInputChange(null);
-  }, [items]);
-
   function handleSearchInputChange(e: ChangeEvent<HTMLInputElement> | null) {
     const value = e?.target?.value?.toLowerCase();
 
     setKeyword(value ?? "");
-    setDialogDefaultValue((x) => ({ ...x, name: keyword }));
+    setDialogDefaultValue((x) => ({ ...x, name: value }));
 
     if (!value) {
       setFilteredItems([...items]);
@@ -90,19 +82,10 @@ export default () => {
       )}
 
       {!hasItems && (
-        <Text>
-          没有看过 "{keyword}"，请添加
-          {/* <Bold
-            className="underline cursor-pointer"
-            onClick={() => setIsOpenDialog(true)}
-          >
-            点击添加
-          </Bold> */}
-        </Text>
-      )}
-
-      {!hasItems && (
-        <CinemaAddOrUpdateDialog defaultValue={dialogDefaultValue} />
+        <>
+          <Text className="mb-1">没有看过 "{keyword}"，请添加：</Text>
+          <CinemaAddOrUpdateDialog defaultValue={dialogDefaultValue} />
+        </>
       )}
     </>
   );
