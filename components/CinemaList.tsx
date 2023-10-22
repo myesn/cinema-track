@@ -5,9 +5,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { ChangeEvent, useEffect, useState } from "react";
 import supabase from "@/supabse";
 import CinemalListItem from "./CinemaListItem";
-import CinemaAddOrUpdateDialog, {
-  CinemaAddOrUpdateForm,
-} from "./CinemaAddOrUpdateDialog";
+import CinemaUpsertDialog, { CinemaUpsertForm } from "./CinemaUpsertDialog";
 import { CinemaDto } from "@/types/dto";
 
 export default () => {
@@ -17,7 +15,7 @@ export default () => {
   const [filteredItems, setFilteredItems] = useState<CinemaDto[]>([...items]);
 
   const [dialogDefaultValue, setDialogDefaultValue] =
-    useState<CinemaAddOrUpdateForm>();
+    useState<CinemaUpsertForm>();
   const hasItems = !isLoading && filteredItems.length > 0;
 
   async function fetchItems() {
@@ -34,7 +32,9 @@ export default () => {
       }));
 
       setItems([...items]);
-      setFilteredItems([...items]);
+      setFilteredItems([
+        ...items.filter((x) => x.name.toLowerCase().includes(keyword)),
+      ]);
     }
 
     setIsLoading(false);
@@ -58,6 +58,10 @@ export default () => {
     setFilteredItems([
       ...items.filter((x) => x.name.toLowerCase().includes(value)),
     ]);
+  }
+
+  async function handleUpsertOk() {
+    await fetchItems();
   }
 
   return (
@@ -84,7 +88,10 @@ export default () => {
       {!hasItems && (
         <>
           <Text className="mb-1">没有看过 "{keyword}"，请添加：</Text>
-          <CinemaAddOrUpdateDialog defaultValue={dialogDefaultValue} />
+          <CinemaUpsertDialog
+            defaultValue={dialogDefaultValue}
+            onUpsertOk={handleUpsertOk}
+          />
         </>
       )}
     </>

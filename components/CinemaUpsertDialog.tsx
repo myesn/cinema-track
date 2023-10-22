@@ -4,10 +4,10 @@ import { CinemaDto } from "@/types/dto";
 import { ChangeEvent, useEffect, useState } from "react";
 import supabase from "@/supabse";
 
-export default (props: CinemaAddOrUpdateDialogProps) => {
+export default (props: CinemaUpsertDialogProps) => {
   const isUpdate = !!props.defaultValue?.id;
   const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState<CinemaAddOrUpdateForm>({
+  const [form, setForm] = useState<CinemaUpsertForm>({
     id: props.defaultValue?.id,
     name: props.defaultValue?.name,
     remarks: props.defaultValue?.remarks,
@@ -22,13 +22,13 @@ export default (props: CinemaAddOrUpdateDialogProps) => {
   }, [props.defaultValue]);
 
   function handleTextInputChange(e: ChangeEvent<HTMLInputElement>) {
-    setForm({ [e.target.name]: e.target.value });
+    setForm((x) => ({ ...x, [e.target.name]: e.target.value }));
   }
 
   async function handleUpsertClick() {
     setLoading(true);
 
-    const result = await supabase()
+    const { data, error } = await supabase()
       .from("cinemas")
       .upsert({
         id: form.id ?? undefined,
@@ -36,8 +36,10 @@ export default (props: CinemaAddOrUpdateDialogProps) => {
         remarks: form.remarks ?? undefined,
       })
       .select();
-    if (result.error?.message) {
-      alert(result.error?.message);
+    if (error?.message) {
+      alert(error?.message);
+    } else {
+      props.onUpsertOk && props.onUpsertOk();
     }
 
     setLoading(false);
@@ -74,9 +76,10 @@ export default (props: CinemaAddOrUpdateDialogProps) => {
   );
 };
 
-export interface CinemaAddOrUpdateDialogProps {
-  defaultValue?: CinemaAddOrUpdateForm;
+export interface CinemaUpsertDialogProps {
+  defaultValue?: CinemaUpsertForm;
+  onUpsertOk: () => Promise<void>;
 }
 
-export interface CinemaAddOrUpdateForm
+export interface CinemaUpsertForm
   extends Partial<Pick<CinemaDto, "id" | "name" | "remarks">> {}
