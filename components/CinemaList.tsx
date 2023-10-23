@@ -1,7 +1,10 @@
 "use client";
 
-import { List, ListItem, Text, TextInput } from "@tremor/react";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import {
+  Input, 
+  Listbox,
+  ListboxItem
+} from "@nextui-org/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import supabase from "@/supabse";
 import CinemalListItem from "./CinemaListItem";
@@ -66,28 +69,27 @@ export default function CinemaList() {
 
   return (
     <>
-      <TextInput
-        icon={MagnifyingGlassIcon}
+      <Input
         placeholder="Search..."
         className="mb-5"
         onChange={handleSearchInputChange}
       />
 
-      {isLoading && <Text>loading..</Text>}
+      {isLoading && <p>loading..</p>}
 
       {hasItems && (
-        <List>
+        <Listbox>
           {filteredItems.map((item) => (
-            <ListItem key={item.name}>
+            <ListboxItem key={item.name}>
               <CinemalListItem {...item} />
-            </ListItem>
+            </ListboxItem>
           ))}
-        </List>
+        </Listbox>
       )}
 
       {!hasItems && (
         <>
-          <Text className="mb-1">没有看过 &quot;{keyword}&quot;，请添加：</Text>
+          <p className="mb-1">没有看过 &quot;{keyword}&quot;，请添加：</p>
           <CinemaUpsertDialog
             defaultValue={dialogDefaultValue}
             onUpsertOk={handleUpsertOk}

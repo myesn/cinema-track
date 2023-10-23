@@ -1,6 +1,5 @@
-import { Card, Flex, TextInput, Button } from "@tremor/react";
-import { FaceSmileIcon } from "@heroicons/react/24/solid";
 import { ChangeEvent, useState } from "react";
+import { Card, CardBody, Input, Button } from "@nextui-org/react";
 import supabase from "@/supabse";
 
 export default function SignIn(props: SigninProps) {
@@ -32,15 +31,15 @@ export default function SignIn(props: SigninProps) {
 
   return (
     <Card className="h-48">
-      <Flex flexDirection="col" className="space-y-3">
-        <TextInput
+      <CardBody className="flex flex-col space-y-3">
+        <Input
           name="email"
           placeholder="email..."
           value={form.email}
           onChange={handleTextInputChange}
         />
 
-        <TextInput
+        <Input
           name="password"
           placeholder="password..."
           value={form.password}
@@ -48,15 +47,14 @@ export default function SignIn(props: SigninProps) {
         />
 
         <Button
-          icon={FaceSmileIcon}
-          loading={loading}
+          isLoading={loading}
           size="sm"
           className="w-full"
           onClick={handleSigninClick}
         >
           登录
         </Button>
-      </Flex>
+      </CardBody>
     </Card>
   );
 }

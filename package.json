@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@heroicons/react": "^2.0.18",
     "@nextui-org/react": "^2.1.13",
     "@supabase/supabase-js": "^2.38.2",
     "framer-motion": "^10.16.4",
