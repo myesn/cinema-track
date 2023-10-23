@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { Card, CardBody, Input, Button } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Checkbox, Link } from "@nextui-org/react";
 import supabase from "@/supabse";
 
 export default function SignIn(props: SigninProps) {
@@ -8,6 +9,7 @@ export default function SignIn(props: SigninProps) {
     email: "",
     password: "",
   });
+  const emailSuffix = '@foxmail.com';
 
   function handleTextInputChange(e: ChangeEvent<HTMLInputElement>) {
     setForm((x) => ({ ...x, [e.target.name]: e.target.value }));
@@ -17,7 +19,7 @@ export default function SignIn(props: SigninProps) {
     setLoading(true);
 
     const { data, error } = await supabase().auth.signInWithPassword({
-      email: form.email!,
+      email: `${form.email}${emailSuffix}`,
       password: form.password!,
     });
     if (error?.message) {
@@ -30,36 +32,54 @@ export default function SignIn(props: SigninProps) {
   }
 
   return (
-    <Card className="h-48">
-      <CardBody className="flex flex-col space-y-3">
-        <Input
-          name="email"
-          placeholder="email..."
-          value={form.email}
-          onChange={handleTextInputChange}
-        />
+    <Modal
+      isOpen={props.isOpen}
+      placement="top-center"
+      hideCloseButton={true}
+    >
+      <ModalContent>
+        <ModalHeader className="flex flex-col gap-1">Sign in</ModalHeader>
 
-        <Input
-          name="password"
-          placeholder="password..."
-          value={form.password}
-          onChange={handleTextInputChange}
-        />
+        <ModalBody>
+          <Input
+            name="email"
+            autoFocus
+            label="Email"
+            placeholder="Enter your email"
+            variant="bordered"
+            endContent={
+              <div className="pointer-events-none flex items-center">
+                <span className="text-default-400 text-small">{emailSuffix}</span>
+              </div>
+            }
+            onChange={handleTextInputChange}
+          />
+          <Input
+            name="password"
+            label="Password"
+            placeholder="Enter your password"
+            type="text"
+            variant="bordered"
+            onChange={handleTextInputChange}
+          />
+        </ModalBody>
 
-        <Button
-          isLoading={loading}
-          size="sm"
-          className="w-full"
-          onClick={handleSigninClick}
-        >
-          登录
-        </Button>
-      </CardBody>
-    </Card>
+        <ModalFooter>
+          <Button color="danger" variant="flat" onPress={props.onClose}>
+            Close
+          </Button>
+          <Button color="primary" isLoading={loading} onPress={handleSigninClick}>
+            Sign in
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }
 
 export interface SigninProps {
+  isOpen: boolean;
+  onClose: () => void;
   onSigninOk: () => Promise<void>;
 }
 
