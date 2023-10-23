@@ -22,7 +22,7 @@ export default function SignIn(props: SigninProps) {
       password: form.password!,
     });
     if (error?.message) {
-      alert(error?.message);
+      console.log(error?.message);
     } else {
       props.onSigninOk && props.onSigninOk();
     }
