@@ -1,36 +1,41 @@
-import supabase from "@/supabse";
 import { CinemaDto } from "@/types/dto";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
-import { useState } from "react";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Button,
+} from "@nextui-org/react";
 
 export default function CinemaListItem(props: ItemProps) {
-  const [loading, setLoading] = useState(false);
+  const cinema = props.cinema;
+  return (
+    <div className="flex items-center space-x-2">
+      <p color="violet" className="flex-1 font-medium truncate">
+        {cinema.name}
+      </p>
+      <p className="flex-1 truncate">{cinema.remarks}</p>
+      <p className="flex-none text-right">{cinema.updated}</p>
+      <ActionDropDownButton
+        onAction={(action) => props.onAction(cinema, action)}
+      />
+    </div>
+  );
+}
 
-  async function handleItemAction(key: any) {
-    console.log(props.id, key)
-    if (key === 'edit') {
-
-    } else if (key === 'delete') {
-      await remove()
-    }
-  }
-
-  async function remove() {
-    setLoading(true);
-    const { error } = await supabase().from('cinemas').delete().eq('id', props.id)
-    if (error?.message) {
-      alert(error.message);
-    }
-
-    setLoading(false);
-  }
-
+function ActionDropDownButton(props: ActionDropDownButtonProps) {
   return (
     <Dropdown>
       <DropdownTrigger>
-        <Item {...props} />
+        <Button
+          size="sm"
+          radius="full"
+          className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
+        >
+          Actions
+        </Button>
       </DropdownTrigger>
-      <DropdownMenu aria-label="Actions" onAction={handleItemAction}>
+      <DropdownMenu aria-label="Actions" onAction={props.onAction}>
         <DropdownItem key="edit">Edit</DropdownItem>
         <DropdownItem key="delete" className="text-danger" color="danger">
           Delete
@@ -40,12 +45,11 @@ export default function CinemaListItem(props: ItemProps) {
   );
 }
 
-function Item(props: ItemProps) {
-  return <div className="flex space-x-2">
-    <p color="violet" className="flex-1 font-medium truncate">{props.name}</p>
-    <p className="flex-1 truncate">{props.remarks}</p>
-    <p className="flex-none text-right">{props.updated}</p>
-  </div>
+export interface ItemProps {
+  cinema: CinemaDto;
+  onAction: (cinema: CinemaDto, action: string) => void;
 }
 
-export interface ItemProps extends CinemaDto { }
+interface ActionDropDownButtonProps {
+  onAction: (action: any) => void;
+}

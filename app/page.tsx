@@ -57,9 +57,7 @@ export default function Home() {
 
       <SignIn isOpen={signinVisible} onClose={() => setSigninVisible(false)} onSigninOk={handleSigninOk} />
 
-
       <CinemaList />
-
     </main>
   );
 }
