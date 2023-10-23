@@ -55,9 +55,11 @@ export default function Home() {
         )}
       </div>
 
-      {/* {signinVisible && <SignIn onSigninOk={handleSigninOk} />} */}
       <SignIn isOpen={signinVisible} onClose={() => setSigninVisible(false)} onSigninOk={handleSigninOk} />
+
+
       <CinemaList />
+
     </main>
   );
 }

@@ -1,9 +1,10 @@
 "use client";
 
 import {
-  Input, 
+  Input,
   Listbox,
-  ListboxItem
+  ListboxItem,
+  ScrollShadow
 } from "@nextui-org/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import supabase from "@/supabse";
@@ -63,6 +64,10 @@ export default function CinemaList() {
     ]);
   }
 
+  function handleSearchInputClear() {
+    setFilteredItems([...items]);
+  }
+
   async function handleUpsertOk() {
     await fetchItems();
   }
@@ -72,19 +77,23 @@ export default function CinemaList() {
       <Input
         placeholder="Search..."
         className="mb-5"
+        isClearable
         onChange={handleSearchInputChange}
+        onClear={handleSearchInputClear}
       />
 
       {isLoading && <p>loading..</p>}
 
       {hasItems && (
-        <Listbox aria-label="cinema list">
-          {filteredItems.map((item) => (
-            <ListboxItem key={item.name} textValue={item.name}>
-              <CinemalListItem {...item} />
-            </ListboxItem>
-          ))}
-        </Listbox>
+        <ScrollShadow className="w-full h-96">
+          <Listbox aria-label="cinema list">
+            {filteredItems.map((item) => (
+              <ListboxItem key={item.name} textValue={item.name}>
+                <CinemalListItem {...item} />
+              </ListboxItem>
+            ))}
+          </Listbox>
+        </ScrollShadow>
       )}
 
       {!hasItems && (
