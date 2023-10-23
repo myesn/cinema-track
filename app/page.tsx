@@ -1,8 +1,7 @@
 "use client";
 
-import { Flex, Title } from "@tremor/react";
 import CinemaList from "@/components/CinemaList";
-import SignIn from "@/components/SignIn";
+import SignIn from "@/components/SignInModal";
 import { useEffect, useState } from "react";
 import supabase from "@/supabse";
 
@@ -32,31 +31,32 @@ export default function Home() {
 
   return (
     <main className="px-10">
-      <Flex>
-        <Title color="green" className="py-5">
+      <div className="flex justify-between text-base">
+        <p color="green" className="py-5">
           cenima records
-        </Title>
+        </p>
 
         {!user.email && (
-          <Title
+          <p
             className="py-5 underline cursor-pointer"
             onClick={() => setSigninVisible(true)}
           >
             signin
-          </Title>
+          </p>
         )}
 
         {user.email && (
-          <Title
+          <p
             className="py-5 underline cursor-pointer"
             onClick={() => handleSignoutClick()}
           >
             <span className="no-underline">{user.email}</span> - 登出
-          </Title>
+          </p>
         )}
-      </Flex>
+      </div>
 
-      {signinVisible && <SignIn onSigninOk={handleSigninOk} />}
+      <SignIn isOpen={signinVisible} onClose={() => setSigninVisible(false)} onSigninOk={handleSigninOk} />
+
       <CinemaList />
     </main>
   );

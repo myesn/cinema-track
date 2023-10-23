@@ -1,5 +1,4 @@
-import { Card, Flex, TextInput, Button } from "@tremor/react";
-import { DocumentPlusIcon } from "@heroicons/react/24/solid";
+import { Card, CardBody, Button, Input } from "@nextui-org/react";
 import { CinemaDto } from "@/types/dto";
 import { ChangeEvent, useEffect, useState } from "react";
 import supabase from "@/supabse";
@@ -47,15 +46,15 @@ export default function CinemaUpsertDialog(props: CinemaUpsertDialogProps) {
 
   return (
     <Card className="h-48">
-      <Flex flexDirection="col" className="space-y-3">
-        <TextInput
+      <CardBody className="flex-col space-y-3">
+        <Input
           name="name"
           placeholder="name..."
           value={form.name}
           onChange={handleTextInputChange}
         />
 
-        <TextInput
+        <Input
           name="remarks"
           placeholder="remarks..."
           value={form.remarks}
@@ -63,15 +62,15 @@ export default function CinemaUpsertDialog(props: CinemaUpsertDialogProps) {
         />
 
         <Button
-          icon={DocumentPlusIcon}
-          loading={loading}
-          size="sm"
+          isLoading={loading}
+          size="md"
+          color="primary"
           className="w-full"
           onClick={handleUpsertClick}
         >
           {isUpdate ? "更新" : "添加"}
         </Button>
-      </Flex>
+      </CardBody>
     </Card>
   );
 }
@@ -82,4 +81,4 @@ export interface CinemaUpsertDialogProps {
 }
 
 export interface CinemaUpsertForm
-  extends Partial<Pick<CinemaDto, "id" | "name" | "remarks">> {}
+  extends Partial<Pick<CinemaDto, "id" | "name" | "remarks">> { }

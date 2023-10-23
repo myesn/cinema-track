@@ -1,14 +1,55 @@
 import { CinemaDto } from "@/types/dto";
-import { Text, Bold, Flex } from "@tremor/react";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Button,
+} from "@nextui-org/react";
 
 export default function CinemaListItem(props: ItemProps) {
+  const cinema = props.cinema;
   return (
-    <Flex>
-      <Bold color="violet" className="flex-1 truncate">{props.name}</Bold>
-      <Text className="flex-1 truncate">{props.remarks}</Text>
-      <Text className="flex-1">{props.updated}</Text>
-    </Flex>
+    <div className="flex items-center space-x-2">
+      <p color="violet" className="flex-1 font-medium truncate">
+        {cinema.name}
+      </p>
+      <p className="flex-1 truncate">{cinema.remarks}</p>
+      <p className="flex-none text-right">{cinema.updated}</p>
+      <ActionDropDownButton
+        onAction={(action) => props.onAction(cinema, action)}
+      />
+    </div>
   );
 }
 
-export interface ItemProps extends CinemaDto { }
+function ActionDropDownButton(props: ActionDropDownButtonProps) {
+  return (
+    <Dropdown>
+      <DropdownTrigger>
+        <Button
+          size="sm"
+          radius="full"
+          className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
+        >
+          Actions
+        </Button>
+      </DropdownTrigger>
+      <DropdownMenu aria-label="Actions" onAction={props.onAction}>
+        <DropdownItem key="edit">Edit</DropdownItem>
+        <DropdownItem key="delete" className="text-danger" color="danger">
+          Delete
+        </DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
+  );
+}
+
+export interface ItemProps {
+  cinema: CinemaDto;
+  onAction: (cinema: CinemaDto, action: string) => void;
+}
+
+interface ActionDropDownButtonProps {
+  onAction: (action: any) => void;
+}
