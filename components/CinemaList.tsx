@@ -78,9 +78,9 @@ export default function CinemaList() {
       {isLoading && <p>loading..</p>}
 
       {hasItems && (
-        <Listbox>
+        <Listbox aria-label="cinema list">
           {filteredItems.map((item) => (
-            <ListboxItem key={item.name}>
+            <ListboxItem key={item.name} textValue={item.name}>
               <CinemalListItem {...item} />
             </ListboxItem>
           ))}

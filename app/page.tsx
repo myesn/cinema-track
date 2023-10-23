@@ -31,7 +31,7 @@ export default function Home() {
 
   return (
     <main className="px-10">
-      <div className="flex text-base">
+      <div className="flex justify-between text-base">
         <p color="green" className="py-5">
           cenima records
         </p>
