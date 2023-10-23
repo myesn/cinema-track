@@ -17,7 +17,7 @@ export default function Home() {
   async function handleSigninOk() {
     const { data, error } = await supabase().auth.getUser();
     if (error) {
-      alert(`获取用户信息失败: ${error.message}`);
+      console.log(`获取用户信息失败: ${error.message}`);
       return;
     }
 
