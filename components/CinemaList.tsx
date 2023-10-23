@@ -8,7 +8,7 @@ import {
 import { ChangeEvent, useEffect, useState } from "react";
 import supabase from "@/supabse";
 import CinemalListItem from "./CinemaListItem";
-import CinemaUpsertDialog, { CinemaUpsertForm } from "./CinemaUpsertDialog";
+import CinemaUpsertDialog, { CinemaUpsertForm } from "./CinemaUpsertCard";
 import { CinemaDto } from "@/types/dto";
 
 export default function CinemaList() {

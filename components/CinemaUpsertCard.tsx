@@ -63,7 +63,8 @@ export default function CinemaUpsertDialog(props: CinemaUpsertDialogProps) {
 
         <Button
           isLoading={loading}
-          size="sm"
+          size="md"
+          color="primary"
           className="w-full"
           onClick={handleUpsertClick}
         >

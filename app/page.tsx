@@ -1,7 +1,7 @@
 "use client";
 
 import CinemaList from "@/components/CinemaList";
-import SignIn from "@/components/SignIn";
+import SignIn from "@/components/SignInModal";
 import { useEffect, useState } from "react";
 import supabase from "@/supabse";
 
