@@ -39,5 +39,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 - [tailwindcss](https://tailwindcss.com/docs)
 - [NextUI](https://nextui.org/)
+- [heroicons](https://heroicons.com)
 - [[deprecated] tremor/components](https://www.tremor.so/components)
-- [[deprecated] heroicons](https://heroicons.com)

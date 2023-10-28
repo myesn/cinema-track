@@ -1,79 +1,54 @@
 "use client";
 
-import { Input, Listbox, ListboxItem, ScrollShadow } from "@nextui-org/react";
-import { ChangeEvent, useEffect, useState } from "react";
-import supabase from "@/supabse";
+import { Listbox, ListboxItem, ScrollShadow } from "@nextui-org/react";
 import CinemalListItem from "./CinemaListItem";
-import CinemaUpsertDialog, { CinemaUpsertForm } from "./CinemaUpsertCard";
+import CinemaUpsertDialog from "./CinemaUpsertCard";
 import { CinemaDto } from "@/types/dto";
 import { PostgrestError } from "@supabase/supabase-js";
+import { CinemaUpsertForm } from "@/app/page";
 
-export default function CinemaList() {
-  const [keyword, setKeyword] = useState("");
-  const { isLoading, cinemas, error, remove } = useCinema({ keyword });
-  if (isLoading) {
+export default function CinemaList(props: CinemaListProps) {
+  if (props.loading) {
     return <p>loading..</p>;
   }
 
-  if (error) {
-    return <p>{error.message}</p>;
+  if (props.error) {
+    return <p>{props.error.message}</p>;
   }
 
-  const SearchInput = (
-    <Input
-      placeholder="Search..."
-      className="mb-5"
-      isClearable
-      onChange={handleSearchInputChange}
-      onClear={handleSearchInputClear}
-    />
-  );
-
-  if (!cinemas.length) {
+  if (!props.items.length) {
     return (
       <>
-        {SearchInput}
-        <p className="mb-1">没有看过 &quot;{keyword}&quot;，请添加：</p>
+        {props.keyword && (
+          <p className="mb-1">没有看过 &quot;{props.keyword}&quot;，请添加：</p>
+        )}
         <CinemaUpsertDialog
-          defaultValue={{ name: keyword }}
-          onUpsertOk={handleUpsertOk}
+          upserting={props.upserting}
+          defaultValue={{ name: props.keyword ?? "" }}
+          onUpsert={props.onUpsert}
         />
       </>
     );
   }
 
-  function handleSearchInputChange(e: ChangeEvent<HTMLInputElement> | null) {
-    const value = e?.target?.value?.toLowerCase();
-
-    setKeyword(value ?? "");
-  }
-
-  function handleSearchInputClear() {
-    setKeyword("");
-  }
-
-  async function handleUpsertOk() {
-    // await fetchItems();
-  }
-
-  async function handleCinemaAction(cinema: CinemaDto, action: string) {
-    console.log(cinema, action);
-    if (action === "edit") {
-      alert("not implemented");
-    } else if (action === "delete") {
-      await remove(cinema.id);
-    }
-  }
-
   return (
     <>
-      {SearchInput}
-
+      {props.upsertForm?.name && (
+        <CinemaUpsertDialog
+          upserting={props.upserting}
+          defaultValue={props.upsertForm}
+          onUpsert={props.onUpsert}
+        />
+      )}
       <ScrollShadow className="w-full h-96">
         <Listbox aria-label="cinema list">
-          {cinemas.map((cinema) => (
-            <ListboxItem key={cinema.name} textValue={cinema.name}>
-              <CinemalListItem cinema={cinema} onAction={handleCinemaAction} />
+          {props.items.map((item) => (
+            <ListboxItem key={item.name} textValue={item.name}>
+              <CinemalListItem
+                cinema={item}
+                showActions={props.showActions}
+                onAction={props.onItemAction}
+              />
             </ListboxItem>
           ))}
         </Listbox>
@@ -82,70 +57,15 @@ export default function CinemaList() {
   );
 }
 
-export function useCinema(props: useCinemaProps) {
-  const [cinemas, setCinemas] = useState<CinemaDto[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<PostgrestError | null>(null);
-  let filteredCinemas: CinemaDto[] = [...cinemas];
+export interface CinemaListProps {
+  loading: boolean;
+  upserting: boolean;
+  error: PostgrestError | null;
+  keyword: string | null;
+  showActions: boolean;
+  items: CinemaDto[];
+  upsertForm: CinemaUpsertForm | null;
 
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-
-      const { data, error } = await supabase()
-        .from("cinemas")
-        .select()
-        .order("updated_at", { ascending: false });
-
-      if (error) {
-        setError(error);
-      }
-
-      if (!error && data) {
-        const items: CinemaDto[] = data.map((x) => ({
-          id: x.id,
-          name: x.name,
-          remarks: x.remarks ?? "",
-          updated: new Date(x.updated_at).toLocaleDateString(),
-        }));
-
-        setCinemas([...items]);
-      }
-
-      setIsLoading(false);
-    })();
-  }, []);
-
-  if (props.keyword) {
-    filteredCinemas = [
-      ...cinemas.filter((x) => x.name.toLowerCase().includes(props.keyword!)),
-    ];
-  }
-
-  async function remove(id: number) {
-    if (!id) return;
-
-    setIsLoading(true);
-
-    const { error } = await supabase().from("cinemas").delete().eq("id", id);
-    if (error) {
-      setError(error);
-    } else {
-      setCinemas((items) => [...items.filter((x) => x.id !== id)]);
-    }
-
-    setIsLoading(false);
-  }
-
-  return {
-    isLoading,
-    cinemas: filteredCinemas,
-    error,
-
-    remove,
-  };
-}
-
-interface useCinemaProps {
-  keyword?: string;
+  onItemAction: (action: string, cinema: CinemaDto) => Promise<void>;
+  onUpsert: (form: CinemaUpsertForm) => Promise<void>;
 }

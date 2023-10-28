@@ -16,9 +16,11 @@ export default function CinemaListItem(props: ItemProps) {
       </p>
       <p className="flex-1 truncate">{cinema.remarks}</p>
       <p className="flex-none text-right">{cinema.updated}</p>
-      <ActionDropDownButton
-        onAction={(action) => props.onAction(cinema, action)}
-      />
+      {props.showActions && (
+        <ActionDropDownButton
+          onAction={(action) => props.onAction(action, cinema)}
+        />
+      )}
     </div>
   );
 }
@@ -46,10 +48,11 @@ function ActionDropDownButton(props: ActionDropDownButtonProps) {
 }
 
 export interface ItemProps {
+  showActions: boolean;
   cinema: CinemaDto;
-  onAction: (cinema: CinemaDto, action: string) => void;
+  onAction: (action: string, cinema: CinemaDto) => Promise<void>;
 }
 
 interface ActionDropDownButtonProps {
-  onAction: (action: any) => void;
+  onAction: (action: any) => Promise<void>;
 }

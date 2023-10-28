@@ -1,47 +1,25 @@
 import { Card, CardBody, Button, Input } from "@nextui-org/react";
-import { CinemaDto } from "@/types/dto";
 import { ChangeEvent, useEffect, useState } from "react";
-import supabase from "@/supabse";
+import { CinemaUpsertForm } from "@/app/page";
 
 export default function CinemaUpsertDialog(props: CinemaUpsertDialogProps) {
   const isUpdate = !!props.defaultValue?.id;
-  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState<CinemaUpsertForm>({
     id: props.defaultValue?.id,
-    name: props.defaultValue?.name,
-    remarks: props.defaultValue?.remarks,
+    name: props.defaultValue?.name ?? "",
+    remarks: props.defaultValue?.remarks ?? "",
   });
 
   useEffect(() => {
     setForm({
       id: props.defaultValue?.id,
-      name: props.defaultValue?.name,
-      remarks: props.defaultValue?.remarks,
+      name: props.defaultValue?.name ?? "",
+      remarks: props.defaultValue?.remarks ?? "",
     });
   }, [props.defaultValue]);
 
   function handleTextInputChange(e: ChangeEvent<HTMLInputElement>) {
     setForm((x) => ({ ...x, [e.target.name]: e.target.value }));
-  }
-
-  async function handleUpsertClick() {
-    setLoading(true);
-
-    const { data, error } = await supabase()
-      .from("cinemas")
-      .upsert({
-        id: form.id ?? undefined,
-        name: form.name!,
-        remarks: form.remarks ?? undefined,
-      })
-      .select();
-    if (error?.message) {
-      alert(error?.message);
-    } else {
-      props.onUpsertOk && props.onUpsertOk();
-    }
-
-    setLoading(false);
   }
 
   return (
@@ -62,11 +40,11 @@ export default function CinemaUpsertDialog(props: CinemaUpsertDialogProps) {
         />
 
         <Button
-          isLoading={loading}
+          isLoading={props.upserting}
           size="md"
           color="primary"
           className="w-full"
-          onClick={handleUpsertClick}
+          onPress={() => props.onUpsert(form)}
         >
           {isUpdate ? "更新" : "添加"}
         </Button>
@@ -76,9 +54,7 @@ export default function CinemaUpsertDialog(props: CinemaUpsertDialogProps) {
 }
 
 export interface CinemaUpsertDialogProps {
-  defaultValue?: CinemaUpsertForm;
-  onUpsertOk: () => Promise<void>;
+  upserting: boolean;
+  defaultValue: CinemaUpsertForm | null;
+  onUpsert: (form: CinemaUpsertForm) => Promise<void>;
 }
-
-export interface CinemaUpsertForm
-  extends Partial<Pick<CinemaDto, "id" | "name" | "remarks">> { }
