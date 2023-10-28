@@ -166,7 +166,7 @@ interface UserBlockProps {
   onSignoutClick: () => Promise<void>;
 }
 
-export function useCinema(props: useCinemaProps) {
+function useCinema(props: useCinemaProps) {
   const [cinemas, setCinemas] = useState<CinemaDto[]>([]);
   const [loading, setLoading] = useState(true);
   const [upserting, setUpserting] = useState(false);
