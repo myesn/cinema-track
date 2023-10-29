@@ -67,7 +67,7 @@ export default function Home() {
       setUpsertVisible(false);
     }
 
-    setUpsertForm(null);
+    setUpsertForm({ id: undefined, name: "", remarks: "" });
 
     await list();
   }
