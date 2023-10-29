@@ -35,7 +35,11 @@ export default function Home() {
     }
 
     setSigninVisible(false);
-    setUser((x) => ({ ...x, id: data.user.id, email: data.user?.email }));
+    setUser((x) => ({
+      ...x,
+      id: data.user.id,
+      email: data.user.email!,
+    }));
   }
 
   async function handleSignoutClick() {
@@ -171,8 +175,8 @@ export default function Home() {
 }
 
 interface User {
-  id?: string;
-  email?: string;
+  id: string;
+  email: string;
 }
 
 function UserBlock(props: UserBlockProps) {
