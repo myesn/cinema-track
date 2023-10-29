@@ -129,21 +129,23 @@ export default function Home() {
           isLoading={loading}
           isIconOnly
           color="secondary"
-          aria-label="Like"
+          aria-label="Refresh"
           onPress={handleRefreshClick}
         >
           {!loading && <ArrowPathIcon />}
         </Button>
 
-        <Button
-          isLoading={loading}
-          isIconOnly
-          color="primary"
-          aria-label="Like"
-          onPress={handleNewClick}
-        >
-          {!loading && <PlusIcon />}
-        </Button>
+        {user && (
+          <Button
+            isLoading={loading}
+            isIconOnly
+            color="primary"
+            aria-label="New"
+            onPress={handleNewClick}
+          >
+            {!loading && <PlusIcon />}
+          </Button>
+        )}
       </div>
 
       {upsertVisible && (
