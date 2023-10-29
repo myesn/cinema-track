@@ -44,7 +44,6 @@ export default function Home() {
   }
 
   function handleSearchInputChange(value: any) {
-    // const value = e?.target?.value?.toLowerCase();
     setKeyword(value ?? "");
   }
 
