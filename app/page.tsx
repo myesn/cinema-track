@@ -187,9 +187,12 @@ function UserBlock(props: UserBlockProps) {
     );
   }
 
+  const { email } = user;
+  const [username] = email?.split("@") ?? [];
+
   return (
     <p className="py-5 underline cursor-pointer" onClick={props.onSignoutClick}>
-      <span className="no-underline">{user.email}</span> - signout
+      <span className="no-underline">{username}</span> - signout
     </p>
   );
 }
