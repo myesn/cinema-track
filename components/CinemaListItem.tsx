@@ -49,7 +49,7 @@ function ActionDropDownButton(props: ActionDropDownButtonProps) {
       <DropdownMenu aria-label="Actions" onAction={props.onAction}>
         <DropdownItem
           key="edit"
-          startContent={<EditDocumentIcon clasName={iconClasses} />}
+          startContent={<EditDocumentIcon className={iconClasses} />}
         >
           Edit
         </DropdownItem>
@@ -57,7 +57,7 @@ function ActionDropDownButton(props: ActionDropDownButtonProps) {
         <DropdownItem
           key="delete"
           startContent={
-            <DeleteDocumentIcon clasName={cn(iconClasses, "text-danger")} />
+            <DeleteDocumentIcon className={cn(iconClasses, "text-danger")} />
           }
           className="text-danger"
           color="danger"
