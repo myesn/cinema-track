@@ -275,6 +275,7 @@ function useCinema(props: useCinemaProps) {
         id: form.id ?? undefined,
         name: form.name!,
         remarks: form.remarks ?? undefined,
+        updated_at: new Date().toISOString(),
       })
       .select();
     if (error?.message) {

@@ -25,7 +25,7 @@ export default function SignIn(props: SigninProps) {
     if (error?.message) {
       alert(error?.message);
     } else {
-      props.onSigninOk && props.onSigninOk();
+      props.onSigninOk && await props.onSigninOk();
     }
 
     setLoading(false);
