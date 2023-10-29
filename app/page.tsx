@@ -73,8 +73,6 @@ export default function Home() {
   }
 
   async function handleCinemaItemAction(action: string, cinema: CinemaDto) {
-    console.log(action, cinema);
-
     if (action === "edit") {
       setUpsertVisible(true);
       setUpsertForm({
@@ -83,7 +81,9 @@ export default function Home() {
         remarks: cinema.remarks,
       });
     } else if (action === "delete") {
-      await remove(cinema.id);
+      if (confirm("确认删除？")) {
+        await remove(cinema.id);
+      }
     }
   }
 
