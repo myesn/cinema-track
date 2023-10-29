@@ -1,6 +1,6 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-![1698509002605](https://github.com/myesn/cinema-track/assets/18598579/87f995b2-5415-4c92-ab40-2183e266e0ab)
+![image](https://github.com/myesn/cinema-track/assets/18598579/62ba6bd3-d70d-4d0a-af88-91d8676b70f9)
 
 ## Getting Started
 
