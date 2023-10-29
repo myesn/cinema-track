@@ -35,7 +35,7 @@ export default function Home() {
     }
 
     setSigninVisible(false);
-    setUser((x) => ({ ...x, email: data.user?.email }));
+    setUser((x) => ({ ...x, id: data.user.id, email: data.user?.email }));
   }
 
   async function handleSignoutClick() {
@@ -59,7 +59,7 @@ export default function Home() {
   }
 
   async function handleUpsertClick(form: CinemaUpsertForm) {
-    await upsert(form);
+    await upsert(user!.id, form);
 
     setKeyword("");
 
@@ -171,6 +171,7 @@ export default function Home() {
 }
 
 interface User {
+  id?: string;
   email?: string;
 }
 
@@ -266,16 +267,17 @@ function useCinema(props: useCinemaProps) {
     setLoading(false);
   }
 
-  async function upsert(form: CinemaUpsertForm) {
+  async function upsert(userId: string, form: CinemaUpsertForm) {
     setUpserting(true);
 
-    const { data, error } = await supabase()
+    const { error } = await supabase()
       .from("cinemas")
       .upsert({
         id: form.id ?? undefined,
         name: form.name!,
         remarks: form.remarks ?? undefined,
         updated_at: new Date().toISOString(),
+        creator_id: userId,
       })
       .select();
     if (error?.message) {

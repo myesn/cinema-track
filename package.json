@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "supabase-login": "supabase login",
+    "supabase-gen-db-schemas": "supabase gen types typescript --project-id gitfljkalpumbjpkqpty > database.types.ts"
   },
   "dependencies": {
     "@nextui-org/react": "^2.1.13",
@@ -27,6 +29,7 @@
     "eslint": "^8",
     "eslint-config-next": "13.5.6",
     "postcss": "^8",
+    "supabase": "^1.106.1",
     "tailwindcss": "^3",
     "typescript": "^5"
   },

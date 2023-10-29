@@ -39,10 +39,14 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Generate Database Schema
 
-- [Install Supabase CLI](https://supabase.com/docs/guides/cli/getting-started)
-- Generate database schema types(replace xxx with project id):
+1. [Install Supabase CLI](https://supabase.com/docs/guides/cli/getting-started) maybe need proxy
+2. Configure Supabse CLI
+```
+yarn supabase-login
+```
+3. Generate database schema types(replace "gitfljkalpumbjpkqpty" with project id):
 ```bash
-supabase gen types typescript --project-id xxx > database.types.ts
+yarn supabase-gen-db-schemas
 ```
 
 ## References
