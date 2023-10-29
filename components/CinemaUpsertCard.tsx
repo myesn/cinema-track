@@ -1,4 +1,4 @@
-import { Card, CardBody, Button, Input } from "@nextui-org/react";
+import { Card, CardBody, Button, Input, Textarea } from "@nextui-org/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { CinemaUpsertForm } from "@/app/page";
 
@@ -23,31 +23,43 @@ export default function CinemaUpsertDialog(props: CinemaUpsertDialogProps) {
   }
 
   return (
-    <Card className="h-48">
+    <Card>
       <CardBody className="flex-col space-y-3">
         <Input
           name="name"
-          placeholder="name..."
+          placeholder="name.."
           value={form.name}
           onChange={handleTextInputChange}
         />
 
-        <Input
+        <Textarea
           name="remarks"
-          placeholder="remarks..."
+          placeholder="remarks.."
           value={form.remarks}
           onChange={handleTextInputChange}
         />
 
-        <Button
-          isLoading={props.upserting}
-          size="md"
-          color="primary"
-          className="w-full"
-          onPress={() => props.onUpsert(form)}
-        >
-          {isUpdate ? "更新" : "添加"}
-        </Button>
+        <div className="flex space-x-2">
+          <Button
+            isLoading={props.upserting}
+            size="md"
+            className="w-full"
+            onPress={props.onClose}
+          >
+            关闭
+          </Button>
+
+          <Button
+            isLoading={props.upserting}
+            isDisabled={!form.name}
+            size="md"
+            color="primary"
+            className="w-full"
+            onPress={() => props.onUpsert(form)}
+          >
+            {isUpdate ? "更新" : "添加"}
+          </Button>
+        </div>
       </CardBody>
     </Card>
   );
@@ -57,4 +69,5 @@ export interface CinemaUpsertDialogProps {
   upserting: boolean;
   defaultValue: CinemaUpsertForm | null;
   onUpsert: (form: CinemaUpsertForm) => Promise<void>;
+  onClose: () => void;
 }

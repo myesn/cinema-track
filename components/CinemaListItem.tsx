@@ -5,7 +5,11 @@ import {
   DropdownMenu,
   DropdownItem,
   Button,
+  cn,
 } from "@nextui-org/react";
+import Cog6ToothIcon from "./icons/Cog6ToothIcon";
+import EditDocumentIcon from "./icons/EditDocumentIcon";
+import DeleteDocumentIcon from "./icons/DeleteDocumentIcon";
 
 export default function CinemaListItem(props: ItemProps) {
   const cinema = props.cinema;
@@ -26,20 +30,38 @@ export default function CinemaListItem(props: ItemProps) {
 }
 
 function ActionDropDownButton(props: ActionDropDownButtonProps) {
+  const iconClasses =
+    "text-xl text-default-500 pointer-events-none flex-shrink-0";
+
   return (
     <Dropdown>
       <DropdownTrigger>
         <Button
           size="sm"
+          isIconOnly
           radius="full"
           className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
         >
-          Actions
+          {/* Actions */}
+          <Cog6ToothIcon />
         </Button>
       </DropdownTrigger>
       <DropdownMenu aria-label="Actions" onAction={props.onAction}>
-        <DropdownItem key="edit">Edit</DropdownItem>
-        <DropdownItem key="delete" className="text-danger" color="danger">
+        <DropdownItem
+          key="edit"
+          startContent={<EditDocumentIcon clasName={iconClasses} />}
+        >
+          Edit
+        </DropdownItem>
+
+        <DropdownItem
+          key="delete"
+          startContent={
+            <DeleteDocumentIcon clasName={cn(iconClasses, "text-danger")} />
+          }
+          className="text-danger"
+          color="danger"
+        >
           Delete
         </DropdownItem>
       </DropdownMenu>

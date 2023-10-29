@@ -8,9 +8,12 @@ import { Button, Input } from "@nextui-org/react";
 import { CinemaDto } from "@/types/dto";
 import { PostgrestError } from "@supabase/supabase-js";
 import ArrowPathIcon from "@/components/icons/ArrowPathIcon";
+import PlusIcon from "@/components/icons/PlusIcon";
+import CinemaUpsertDialog from "@/components/CinemaUpsertCard";
 
 export default function Home() {
   const [signinVisible, setSigninVisible] = useState(false);
+  const [upsertVisible, setUpsertVisible] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [keyword, setKeyword] = useState("");
   const { loading, upserting, error, cinemas, list, upsert, remove } =
@@ -40,22 +43,33 @@ export default function Home() {
     setUser(null);
   }
 
-  function handleSearchInputChange(e: ChangeEvent<HTMLInputElement> | null) {
-    const value = e?.target?.value?.toLowerCase();
-
+  function handleSearchInputChange(value: any) {
+    // const value = e?.target?.value?.toLowerCase();
     setKeyword(value ?? "");
-    setUpsertForm(null);
   }
 
-  function handleSearchInputClear() {
-    setKeyword("");
+  function handleNewClick() {
+    setUpsertVisible(true);
+
+    // 有关键字但是筛选除的结果为空时
+    if (keyword && !cinemas.length) {
+      setUpsertForm({ name: keyword });
+    } else {
+      setUpsertForm(null);
+    }
   }
 
-  async function handleUpsert(form: CinemaUpsertForm) {
+  async function handleUpsertClick(form: CinemaUpsertForm) {
     await upsert(form);
 
     setKeyword("");
+
+    if (form.id) {
+      setUpsertVisible(false);
+    }
+
     setUpsertForm(null);
+
     await list();
   }
 
@@ -63,6 +77,7 @@ export default function Home() {
     console.log(action, cinema);
 
     if (action === "edit") {
+      setUpsertVisible(true);
       setUpsertForm({
         id: cinema.id,
         name: cinema.name,
@@ -107,29 +122,48 @@ export default function Home() {
           className="mb-5"
           value={keyword}
           isClearable
-          onChange={handleSearchInputChange}
-          onClear={handleSearchInputClear}
+          onValueChange={handleSearchInputChange}
+          onClear={() => handleSearchInputChange(null)}
         />
+
         <Button
           isLoading={loading}
           isIconOnly
-          color="danger"
+          color="secondary"
           aria-label="Like"
           onPress={handleRefreshClick}
         >
           {!loading && <ArrowPathIcon />}
         </Button>
+
+        <Button
+          isLoading={loading}
+          isIconOnly
+          color="primary"
+          aria-label="Like"
+          onPress={handleNewClick}
+        >
+          {!loading && <PlusIcon />}
+        </Button>
       </div>
+
+      {upsertVisible && (
+        <CinemaUpsertDialog
+          upserting={upserting}
+          defaultValue={upsertForm}
+          onUpsert={handleUpsertClick}
+          onClose={() => setUpsertVisible(false)}
+        />
+      )}
+
       <CinemaList
         loading={loading}
         upserting={upserting}
         error={error}
         items={cinemas}
         keyword={keyword}
-        upsertForm={upsertForm}
         showActions={!!user}
         onItemAction={handleCinemaItemAction}
-        onUpsert={handleUpsert}
       />
     </main>
   );
@@ -219,7 +253,8 @@ function useCinema(props: useCinemaProps) {
 
     const { error } = await supabase().from("cinemas").delete().eq("id", id);
     if (error) {
-      setError(error);
+      //setError(error);
+      alert(error.message);
     } else {
       setCinemas((items) => [...items.filter((x) => x.id !== id)]);
     }
@@ -239,7 +274,8 @@ function useCinema(props: useCinemaProps) {
       })
       .select();
     if (error?.message) {
-      setError(error);
+      //setError(error);
+      alert(error.message);
     }
 
     setUpserting(false);
