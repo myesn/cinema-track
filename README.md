@@ -41,11 +41,13 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 1. [Install Supabase CLI](https://supabase.com/docs/guides/cli/getting-started) maybe need proxy
 2. Configure Supabse CLI
-```
+```bash
+# maybe need proxy
 yarn supabase-login
 ```
 3. Generate database schema types(replace "gitfljkalpumbjpkqpty" with your project id):
 ```bash
+# maybe need proxy
 yarn supabase-gen-db-schemas
 ```
 
