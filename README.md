@@ -37,6 +37,14 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
+## Generate Database Schema
+
+- [Install Supabase CLI](https://supabase.com/docs/guides/cli/getting-started)
+- Generate database schema types(replace xxx with project id):
+```bash
+supabase gen types typescript --project-id xxx > database.types.ts
+```
+
 ## References
 
 - [tailwindcss](https://tailwindcss.com/docs)
