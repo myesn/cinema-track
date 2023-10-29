@@ -2,7 +2,7 @@
 
 import CinemaList from "@/components/CinemaList";
 import SignIn from "@/components/SignInModal";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import supabase from "@/supabse";
 import { Button, Input } from "@nextui-org/react";
 import { CinemaDto } from "@/types/dto";
