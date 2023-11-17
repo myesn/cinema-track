@@ -1,19 +1,21 @@
 "use client";
 
-import TagManage, { TagListBoxItemProps } from "@/components/TagManage";
-import { faker } from "@faker-js/faker";
+import TagManage from "@/components/TagManage/TagManage";
+import { TagManageListboxItemProps } from "@/components/TagManage/TagManageListbox";
+import { fa, faker } from "@faker-js/faker";
 import { useEffect, useState } from "react";
 
 export default function TagManageTest() {
   const title = "标签管理";
-  const [items, setItems] = useState<TagListBoxItemProps[]>([]);
+  const [items, setItems] = useState<TagManageListboxItemProps[]>([]);
 
   useEffect(() => {
     setItems(
-      faker.helpers.multiple<TagListBoxItemProps>(
+      faker.helpers.multiple<TagManageListboxItemProps>(
         () => ({
           key: faker.string.nanoid(),
           text: faker.lorem.words({ min: 1, max: 3 }),
+          isEditMode: true,
         }),
         { count: { min: 0, max: 59 } }
       )
@@ -26,7 +28,44 @@ export default function TagManageTest() {
         title={title}
         items={items}
         onSelectionChange={(keys) => {
-          console.log("tag selection change:", keys);
+          console.log("onSelectionChange", keys);
+        }}
+        onCreate={(text) => {
+          console.log("onCreate", text);
+        }}
+        onEditStart={(key) => {
+          console.log("onEditStart", key);
+          setItems((items) =>
+            items.map((item) => {
+              if (item.key === key) {
+                return {
+                  ...item,
+                  isEditMode: true,
+                };
+              }
+
+              return item;
+            })
+          );
+        }}
+        onEditEnd={(key, newText) => {
+          console.log("onEditEnd", key);
+          setItems((items) =>
+            items.map((item) => {
+              if (item.key === key) {
+                return {
+                  ...item,
+                  text: newText,
+                  isEditMode: false,
+                };
+              }
+
+              return item;
+            })
+          );
+        }}
+        onDelete={(key) => {
+          console.log("onDelete", key);
         }}
       />
     </>
