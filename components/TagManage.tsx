@@ -2,15 +2,26 @@
 
 import { Input, Listbox, ListboxItem, Selection } from "@nextui-org/react";
 import SearchIcon from "./icons/SearchIcon";
+import { useState } from "react";
 
 export default function TagManage(props: TagManageProps) {
+  const [searchValue, setSearchValue] = useState("");
+  const filteredItems = searchValue
+    ? props.items.filter((x) => x.text.includes(searchValue))
+    : props.items;
+
+  function handleSearchValueChange(value: string) {
+    setSearchValue(value);
+    props.onSearchValueChange && props.onSearchValueChange(value);
+  }
+
   return (
     <div className="w-full">
       <Title text={props.title} />
-      <Search />
-      <Count number={props.items.length} />
+      <Search value={searchValue} onValueChange={handleSearchValueChange} />
+      <Count number={filteredItems.length} />
       <TagListbox
-        items={props.items}
+        items={filteredItems}
         onSelectionChange={props.onSelectionChange}
       />
     </div>
@@ -20,6 +31,7 @@ export default function TagManage(props: TagManageProps) {
 export interface TagManageProps
   extends Pick<TagListboxProps, "items" | "onSelectionChange"> {
   title: string;
+  onSearchValueChange?: SearchProps["onValueChange"];
 }
 
 function Title(props: TitleProps) {
@@ -35,11 +47,17 @@ function Search(props: SearchProps) {
       aria-label="Search"
       isClearable
       placeholder="Type to search..."
-      endContent={<SearchIcon />}
+      labelPlacement="outside"
+      startContent={<SearchIcon />}
+      value={props.value}
+      onValueChange={props.onValueChange}
     />
   );
 }
-interface SearchProps {}
+interface SearchProps {
+  value: string;
+  onValueChange: (value: string) => void;
+}
 
 function Count(props: CountProps) {
   return <span>已有标签（{props.number}）</span>;
@@ -55,7 +73,7 @@ function TagListbox(props: TagListboxProps) {
       classNames={{
         list: "max-h-[300px] overflow-y-scroll",
       }}
-      aria-label="tags list box"
+      aria-label="tags listbox"
       items={props.items}
       disallowEmptySelection={false}
       selectionMode="multiple"
