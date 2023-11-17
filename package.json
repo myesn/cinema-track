@@ -11,11 +11,11 @@
     "supabase-gen-db-schemas": "supabase gen types typescript --project-id gitfljkalpumbjpkqpty > database.types.ts"
   },
   "dependencies": {
-    "@nextui-org/react": "^2.1.13",
-    "@supabase/supabase-js": "^2.38.2",
+    "@nextui-org/react": "^2.2.9",
+    "@supabase/supabase-js": "^2.38.4",
     "@vercel/analytics": "^1.1.1",
-    "framer-motion": "^10.16.4",
-    "next": "13.5.6",
+    "framer-motion": "^10.16.5",
+    "next": "14.0.3",
     "react": "^18",
     "react-dom": "^18",
     "swr": "^2.2.4"
@@ -27,9 +27,9 @@
     "autoprefixer": "^10",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8",
-    "eslint-config-next": "13.5.6",
+    "eslint-config-next": "14.0.3",
     "postcss": "^8",
-    "supabase": "^1.106.1",
+    "supabase": "^1.112.0",
     "tailwindcss": "^3",
     "typescript": "^5"
   },
