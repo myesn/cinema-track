@@ -17,10 +17,10 @@ export const metadata: Metadata = {
 // https://nextjs.org/docs/app/api-reference/functions/generate-viewport#width-initialscale-and-maximumscale
 export const viewport = {
   width: "device-width",
-    minimumScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-}
+  minimumScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 export default function RootLayout({
   children,
