@@ -1,7 +1,5 @@
 "use client";
 
-import CinemaList from "@/components/CinemaList";
-import SignIn from "@/components/SignInModal";
 import { useEffect, useState } from "react";
 import supabase from "@/supabse";
 import { Button, Input } from "@nextui-org/react";
@@ -9,7 +7,9 @@ import { CinemaDto } from "@/types/dto";
 import { PostgrestError } from "@supabase/supabase-js";
 import ArrowPathIcon from "@/components/icons/ArrowPathIcon";
 import PlusIcon from "@/components/icons/PlusIcon";
-import CinemaUpsertDialog from "@/components/CinemaUpsertCard";
+import CinemaList from "@/components/CinemaManage/CinemaList";
+import CinemaUpsertDialog from "@/components/CinemaManage/CinemaUpsertCard";
+import SignIn from "@/components/SignInModal";
 
 export default function Home() {
   const [signinVisible, setSigninVisible] = useState(false);
