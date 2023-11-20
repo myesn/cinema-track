@@ -12,7 +12,7 @@ import CinemaManage from "@/components/CinemaManage/CinemaManage";
 export default function Home() {
   const [signinVisible, setSigninVisible] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const { loading, upserting, cinemas, list, upsert, remove } = useCinema();
+  const { loading, cinemas, list, upsert, remove } = useCinema();
 
   useEffect(() => {
     handleSigninOk();
@@ -77,7 +77,6 @@ export default function Home() {
       <CinemaManage
         isSingin={!!user}
         listLoading={loading}
-        upsertLoading={upserting}
         items={cinemas}
         onRefresh={handleCinemaRefresh}
         onUpsert={handleCinemaUpsert}

@@ -40,7 +40,7 @@ export default function CinemaManage(props: CinemaManageProps) {
   async function handleUpsertClick(form: CinemaUpsertForm) {
     setUpsertForm({ id: undefined, name: "", remarks: "" });
 
-    props.onUpsert(form);
+    await props.onUpsert(form);
   }
 
   async function handleCinemaItemAction(action: string, item: CinemaDto) {
@@ -56,13 +56,13 @@ export default function CinemaManage(props: CinemaManageProps) {
       setUpsertForm(form);
     } else if (action === "delete") {
       if (confirm("确认删除？")) {
-        props.onDelete(item.id);
+        await props.onDelete(item.id);
       }
     }
   }
 
   async function handleRefreshClick() {
-    props.onRefresh();
+    await props.onRefresh();
   }
 
   return (
@@ -91,20 +91,18 @@ export default function CinemaManage(props: CinemaManageProps) {
 
         {props.isSingin && (
           <Button
-            isLoading={props.upsertLoading}
             isIconOnly
             color="primary"
             aria-label="New"
             onPress={handleCreateClick}
           >
-            {!props.upsertLoading && <PlusIcon />}
+            <PlusIcon />
           </Button>
         )}
       </div>
 
       {upsertVisible && (
         <CinemaUpsertDialog
-          upserting={props.upsertLoading}
           form={upsertForm}
           onUpsert={handleUpsertClick}
           onClose={() => setUpsertVisible(false)}
@@ -125,10 +123,9 @@ export default function CinemaManage(props: CinemaManageProps) {
 export interface CinemaManageProps {
   isSingin: boolean;
   listLoading: boolean;
-  upsertLoading: boolean;
   items: CinemaDto[];
 
-  onRefresh: () => void;
-  onUpsert: (item: CinemaUpsertForm) => void;
-  onDelete: (id: CinemaDto["id"]) => void;
+  onRefresh: () => Promise<void>;
+  onUpsert: (item: CinemaUpsertForm) => Promise<void>;
+  onDelete: (id: CinemaDto["id"]) => Promise<void>;
 }
