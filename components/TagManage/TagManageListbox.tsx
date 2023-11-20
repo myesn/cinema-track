@@ -34,8 +34,8 @@ export default function TagManageListbox(props: TagManageListboxProps) {
           <TagManageListboxItemContent
             text={item.text}
             isEditMode={item.isEditMode}
-            onEditPress={(newText) => {
-              props.onEditEnd && props.onEditEnd(item.key, newText);
+            onEditPress={async (newText) => {
+              props.onEditEnd && await props.onEditEnd(item.key, newText);
             }}
           />
         </ListboxItem>
@@ -47,8 +47,8 @@ export interface TagManageListboxProps {
   items: TagManageListboxItemProps[];
   onSelectionChange?: (keys: Selection) => any;
   onEditStart?: (key: string | number) => void;
-  onEditEnd?: (key: string | number, newText: string) => void;
-  onDelete?: (key: string | number) => void;
+  onEditEnd?: (key: string | number, newText: string) => Promise<void>;
+  onDelete?: (key: string | number) => Promise<void>;
 }
 
 export interface TagManageListboxItemProps {

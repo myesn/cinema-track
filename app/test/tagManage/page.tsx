@@ -30,7 +30,7 @@ export default function TagManageTest() {
         onSelectionChange={(keys) => {
           console.log("onSelectionChange", keys);
         }}
-        onCreate={(text) => {
+        onCreate={async (text) => {
           console.log("onCreate", text);
         }}
         onEditStart={(key) => {
@@ -48,7 +48,7 @@ export default function TagManageTest() {
             })
           );
         }}
-        onEditEnd={(key, newText) => {
+        onEditEnd={async (key, newText) => {
           console.log("onEditEnd", key);
           setItems((items) =>
             items.map((item) => {
@@ -64,7 +64,7 @@ export default function TagManageTest() {
             })
           );
         }}
-        onDelete={(key) => {
+        onDelete={async (key) => {
           console.log("onDelete", key);
         }}
       />

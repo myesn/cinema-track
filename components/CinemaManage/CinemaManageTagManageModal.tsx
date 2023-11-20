@@ -34,7 +34,7 @@ export default function CinemaManageTagManageModal(
             onSelectionChange={(keys) => {
               console.log("onSelectionChange", keys);
             }}
-            onCreate={(text) => {
+            onCreate={async (text) => {
               console.log("onCreate", text);
             }}
             onEditStart={(key) => {
@@ -52,7 +52,7 @@ export default function CinemaManageTagManageModal(
                 })
               );
             }}
-            onEditEnd={(key, newText) => {
+            onEditEnd={async (key, newText) => {
               console.log("onEditEnd", key);
               setItems((items) =>
                 items.map((item) => {
@@ -68,7 +68,7 @@ export default function CinemaManageTagManageModal(
                 })
               );
             }}
-            onDelete={(key) => {
+            onDelete={async (key) => {
               console.log("onDelete", key);
             }}
           />

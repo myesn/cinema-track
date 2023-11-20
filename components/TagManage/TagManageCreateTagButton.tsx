@@ -13,8 +13,8 @@ export default function TagManageCreateTagButton({
       fullWidth
       color="primary"
       variant="light"
-      onPress={() => {
-        onPress && onPress(text);
+      onPress={async () => {
+        onPress && await onPress(text);
       }}
     >
       创建标签 “{text}”
@@ -24,5 +24,5 @@ export default function TagManageCreateTagButton({
 
 export interface TagManageCreateTagButtonProps {
   text: string;
-  onPress?: (text: string) => void;
+  onPress?: (text: string) => Promise<void>;
 }

@@ -6,10 +6,6 @@ import { useFormik } from "formik";
 export default function TagManageListboxItemContent(
   props: TagManageListboxItemContentProps
 ) {
-  if (!props.isEditMode) {
-    return props.text;
-  }
-
   const formik = useFormik({
     initialValues: { name: props.text },
     async onSubmit(values, formikHelpers) {
@@ -18,6 +14,10 @@ export default function TagManageListboxItemContent(
       formikHelpers.resetForm();
     },
   });
+
+  if (!props.isEditMode) {
+    return props.text;
+  }
 
   return (
     <form className="flex items-center" onSubmit={formik.handleSubmit}>
