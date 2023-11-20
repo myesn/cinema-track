@@ -1,6 +1,6 @@
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
 import TagManage from "../TagManage/TagManage";
-import { fa, faker } from "@faker-js/faker";
+import { faker } from "@faker-js/faker";
 import { useEffect, useState } from "react";
 import { TagManageListboxItemProps } from "../TagManage/TagManageListbox";
 
