@@ -11,7 +11,7 @@ import { useCinemaClient } from "@/hooks/useCinemaClient";
 export default function Home() {
   const [signinVisible, setSigninVisible] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const { loading, cinemas, list, upsert, remove } = useCinemaClient();
+  const { loading, items: cinemas, list, upsert, remove } = useCinemaClient();
 
   useEffect(() => {
     handleSigninOk();

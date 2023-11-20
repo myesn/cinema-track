@@ -5,11 +5,11 @@ import { PostgrestError } from "@supabase/supabase-js";
 import { useState } from "react";
 
 export function useCinemaClient() {
-  const [cinemas, setCinemas] = useState<CinemaDto[]>([]);
+  const [items, setItems] = useState<CinemaDto[]>([]);
   const [loading, setLoading] = useState(true);
   const [upserting, setUpserting] = useState(false);
   const [error, setError] = useState<PostgrestError | null>(null);
-  let filteredCinemas: CinemaDto[] = [...cinemas];
+  let filteredItems: CinemaDto[] = [...items];
 
   // 立即执行
   // useEffect(() => {
@@ -44,7 +44,7 @@ export function useCinemaClient() {
         updated: new Date(x.updated_at).toLocaleDateString(),
       }));
 
-      setCinemas([...items]);
+      setItems([...items]);
     }
 
     setLoading(false);
@@ -60,7 +60,7 @@ export function useCinemaClient() {
       //setError(error);
       alert(error.message);
     } else {
-      setCinemas((items) => [...items.filter((x) => x.id !== id)]);
+      setItems((items) => [...items.filter((x) => x.id !== id)]);
     }
 
     setLoading(false);
@@ -91,7 +91,7 @@ export function useCinemaClient() {
     loading,
     upserting,
     error,
-    cinemas: filteredCinemas,
+    items: filteredItems,
 
     list,
     upsert,
