@@ -23,7 +23,7 @@ export default function TagManage(props: TagManageProps) {
   return (
     <div className="w-full">
       <div className="px-[12px]">
-        <TagManageTitle text={props.title} />
+        {/* <TagManageTitle text={props.title} /> */}
         <TagManageSearch
           value={searchValue}
           onValueChange={handleSearchValueChange}

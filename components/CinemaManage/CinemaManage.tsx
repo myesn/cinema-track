@@ -5,14 +5,17 @@ import { Button, Input } from "@nextui-org/react";
 import { CinemaDto } from "@/types/cinema.dto";
 import ArrowPathIcon from "@/components/icons/ArrowPathIcon";
 import PlusIcon from "@/components/icons/PlusIcon";
+import TagIcon from "@/components/icons/TagIcon";
 import CinemaList from "@/components/CinemaManage/CinemaList";
 import CinemaUpsertDialog, {
   CinemaUpsertForm,
 } from "@/components/CinemaManage/CinemaUpsertCard";
+import CinemaManageTagManageModal from "./CinemaManageTagManageModal";
 
 export default function CinemaManage(props: CinemaManageProps) {
   const [keyword, setKeyword] = useState("");
   const [upsertVisible, setUpsertVisible] = useState(false);
+  const [tagManageIsOpen, setTagManageIsOpen] = useState(false);
   const [upsertForm, setUpsertForm] = useState<CinemaUpsertForm | null>(null);
   const filteredItems = keyword
     ? props.items.filter(
@@ -26,6 +29,10 @@ export default function CinemaManage(props: CinemaManageProps) {
     setKeyword(value);
   }
 
+  async function handleRefreshClick() {
+    await props.onRefresh();
+  }
+
   function handleCreateClick() {
     setUpsertVisible(true);
 
@@ -37,7 +44,11 @@ export default function CinemaManage(props: CinemaManageProps) {
     }
   }
 
-  async function handleUpsertClick(form: CinemaUpsertForm) {    
+  function handleTagManageClick() {
+    setTagManageIsOpen(true);
+  }
+
+  async function handleUpsertClick(form: CinemaUpsertForm) {
     await props.onUpsert(form);
     setUpsertForm({ id: undefined, name: "", remarks: "" });
     setUpsertVisible(false);
@@ -59,10 +70,6 @@ export default function CinemaManage(props: CinemaManageProps) {
         await props.onDelete(item.id);
       }
     }
-  }
-
-  async function handleRefreshClick() {
-    await props.onRefresh();
   }
 
   return (
@@ -99,6 +106,17 @@ export default function CinemaManage(props: CinemaManageProps) {
             <PlusIcon />
           </Button>
         )}
+
+        {props.isSingin && (
+          <Button
+            isIconOnly
+            color="primary"
+            aria-label="New"
+            onPress={handleTagManageClick}
+          >
+            <TagIcon />
+          </Button>
+        )}
       </div>
 
       {upsertVisible && (
@@ -115,6 +133,11 @@ export default function CinemaManage(props: CinemaManageProps) {
         keyword={keyword}
         showActions={props.isSingin}
         onItemAction={handleCinemaItemAction}
+      />
+
+      <CinemaManageTagManageModal
+        isOpen={tagManageIsOpen}
+        onClose={() => setTagManageIsOpen(false)}
       />
     </>
   );
