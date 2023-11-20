@@ -118,8 +118,8 @@ export default function Home() {
       />
 
       <div className="flex space-x-2">
-        <Input
-          autoFocus={true}
+        <Input      
+          autoFocus
           readOnly={loading}
           placeholder="Search..."
           className="mb-5"
