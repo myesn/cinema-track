@@ -1,22 +1,22 @@
 import { Card, CardBody, Button, Input, Textarea } from "@nextui-org/react";
 import { ChangeEvent, useEffect, useState } from "react";
-import { CinemaUpsertForm } from "@/app/page";
+import { CinemaDto } from "@/types/cinema.dto";
 
 export default function CinemaUpsertDialog(props: CinemaUpsertDialogProps) {
-  const isUpdate = !!props.defaultValue?.id;
+  const isUpdate = !!props.form?.id;
   const [form, setForm] = useState<CinemaUpsertForm>({
-    id: props.defaultValue?.id,
-    name: props.defaultValue?.name ?? "",
-    remarks: props.defaultValue?.remarks ?? "",
+    id: props.form?.id,
+    name: props.form?.name ?? "",
+    remarks: props.form?.remarks ?? "",
   });
 
-  useEffect(() => {
-    setForm({
-      id: props.defaultValue?.id,
-      name: props.defaultValue?.name ?? "",
-      remarks: props.defaultValue?.remarks ?? "",
-    });
-  }, [props.defaultValue]);
+  // useEffect(() => {
+  //   setForm({
+  //     id: props.form?.id,
+  //     name: props.form?.name ?? "",
+  //     remarks: props.form?.remarks ?? "",
+  //   });
+  // }, [props.form]);
 
   function handleTextInputChange(e: ChangeEvent<HTMLInputElement>) {
     setForm((x) => ({ ...x, [e.target.name]: e.target.value }));
@@ -67,7 +67,11 @@ export default function CinemaUpsertDialog(props: CinemaUpsertDialogProps) {
 
 export interface CinemaUpsertDialogProps {
   upserting: boolean;
-  defaultValue: CinemaUpsertForm | null;
+  form: CinemaUpsertForm | null;
   onUpsert: (form: CinemaUpsertForm) => Promise<void>;
   onClose: () => void;
 }
+
+
+export interface CinemaUpsertForm
+  extends Partial<Pick<CinemaDto, "id" | "name" | "remarks">> {}

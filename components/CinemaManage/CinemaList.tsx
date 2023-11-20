@@ -10,9 +10,9 @@ export default function CinemaList(props: CinemaListProps) {
     return <p>loading..</p>;
   }
 
-  if (props.error) {
-    return <p>{props.error.message}</p>;
-  }
+  // if (props.error) {
+  //   return <p>{props.error.message}</p>;
+  // }
 
   if (!props.items.length) {
     return (
@@ -43,8 +43,7 @@ export default function CinemaList(props: CinemaListProps) {
 
 export interface CinemaListProps {
   loading: boolean;
-  upserting: boolean;
-  error: PostgrestError | null;
+  // error: PostgrestError | null;
   keyword: string | null;
   showActions: boolean;
   items: CinemaDto[];

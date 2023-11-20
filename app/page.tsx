@@ -2,25 +2,17 @@
 
 import { useEffect, useState } from "react";
 import supabase from "@/supabse";
-import { Button, Input } from "@nextui-org/react";
 import { CinemaDto } from "@/types/cinema.dto";
 import { PostgrestError } from "@supabase/supabase-js";
-import ArrowPathIcon from "@/components/icons/ArrowPathIcon";
-import PlusIcon from "@/components/icons/PlusIcon";
-import CinemaList from "@/components/CinemaManage/CinemaList";
-import CinemaUpsertDialog from "@/components/CinemaManage/CinemaUpsertCard";
+import { CinemaUpsertForm } from "@/components/CinemaManage/CinemaUpsertCard";
 import SignIn from "@/components/SignInModal";
+import UserBlock from "@/components/UserBlock";
+import CinemaManage from "@/components/CinemaManage/CinemaManage";
 
 export default function Home() {
   const [signinVisible, setSigninVisible] = useState(false);
-  const [upsertVisible, setUpsertVisible] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const [keyword, setKeyword] = useState("");
-  const { loading, upserting, error, cinemas, list, upsert, remove } =
-    useCinema({
-      keyword,
-    });
-  const [upsertForm, setUpsertForm] = useState<CinemaUpsertForm | null>(null);
+  const { loading, upserting, cinemas, list, upsert, remove } = useCinema();
 
   useEffect(() => {
     handleSigninOk();
@@ -47,52 +39,16 @@ export default function Home() {
     setUser(null);
   }
 
-  function handleSearchInputChange(value: any) {
-    setKeyword(value ?? "");
+  async function handleCinemaRefresh() {
+    await list();
   }
 
-  function handleNewClick() {
-    setUpsertVisible(true);
-
-    // 有关键字但是筛选除的结果为空时
-    if (keyword && !cinemas.length) {
-      setUpsertForm({ name: keyword });
-    } else {
-      setUpsertForm(null);
-    }
-  }
-
-  async function handleUpsertClick(form: CinemaUpsertForm) {
+  async function handleCinemaUpsert(form: CinemaUpsertForm) {
     await upsert(user!.id, form);
-
-    setKeyword("");
-
-    if (form.id) {
-      setUpsertVisible(false);
-    }
-
-    setUpsertForm({ id: undefined, name: "", remarks: "" });
-
-    await list();
   }
 
-  async function handleCinemaItemAction(action: string, cinema: CinemaDto) {
-    if (action === "edit") {
-      setUpsertVisible(true);
-      setUpsertForm({
-        id: cinema.id,
-        name: cinema.name,
-        remarks: cinema.remarks,
-      });
-    } else if (action === "delete") {
-      if (confirm("确认删除？")) {
-        await remove(cinema.id);
-      }
-    }
-  }
-
-  async function handleRefreshClick() {
-    await list();
+  async function handleCinemaDelete(id: number) {
+    await remove(id);
   }
 
   return (
@@ -104,7 +60,7 @@ export default function Home() {
 
         <UserBlock
           user={user}
-          onSigninClick={async () => {
+          onSigninClick={() => {
             setSigninVisible(true);
           }}
           onSignoutClick={handleSignoutClick}
@@ -117,58 +73,14 @@ export default function Home() {
         onSigninOk={handleSigninOk}
       />
 
-      <div className="flex space-x-2 mb-5 items-center">
-        <Input
-          size="sm"
-          autoFocus
-          readOnly={loading}
-          placeholder="Search..."
-          value={keyword}
-          isClearable
-          onValueChange={handleSearchInputChange}
-          onClear={() => handleSearchInputChange(null)}
-        />
-
-        <Button
-          isLoading={loading}
-          isIconOnly
-          color="secondary"
-          aria-label="Refresh"
-          onPress={handleRefreshClick}
-        >
-          {!loading && <ArrowPathIcon />}
-        </Button>
-
-        {user && (
-          <Button
-            isLoading={loading}
-            isIconOnly
-            color="primary"
-            aria-label="New"
-            onPress={handleNewClick}
-          >
-            {!loading && <PlusIcon />}
-          </Button>
-        )}
-      </div>
-
-      {upsertVisible && (
-        <CinemaUpsertDialog
-          upserting={upserting}
-          defaultValue={upsertForm}
-          onUpsert={handleUpsertClick}
-          onClose={() => setUpsertVisible(false)}
-        />
-      )}
-
-      <CinemaList
-        loading={loading}
-        upserting={upserting}
-        error={error}
+      <CinemaManage
+        isSingin={!!user}
+        listLoading={loading}
+        upsertLoading={upserting}
         items={cinemas}
-        keyword={keyword}
-        showActions={!!user}
-        onItemAction={handleCinemaItemAction}
+        onRefresh={handleCinemaRefresh}
+        onUpsert={handleCinemaUpsert}
+        onDelete={handleCinemaDelete}
       />
     </main>
   );
@@ -179,37 +91,7 @@ interface User {
   email: string;
 }
 
-function UserBlock(props: UserBlockProps) {
-  const { user } = props;
-
-  if (!user) {
-    return (
-      <p
-        className="py-5 underline cursor-pointer"
-        onClick={props.onSigninClick}
-      >
-        signin
-      </p>
-    );
-  }
-
-  const { email } = user;
-  const [username] = email?.split("@") ?? [];
-
-  return (
-    <p className="py-5 underline cursor-pointer" onClick={props.onSignoutClick}>
-      <span className="no-underline">{username}</span> - signout
-    </p>
-  );
-}
-
-interface UserBlockProps {
-  user: User | null;
-  onSigninClick: () => Promise<void>;
-  onSignoutClick: () => Promise<void>;
-}
-
-function useCinema(props: useCinemaProps) {
+function useCinema() {
   const [cinemas, setCinemas] = useState<CinemaDto[]>([]);
   const [loading, setLoading] = useState(true);
   const [upserting, setUpserting] = useState(false);
@@ -223,11 +105,11 @@ function useCinema(props: useCinemaProps) {
   //   })();
   // }, []);
 
-  if (props.keyword) {
-    filteredCinemas = [
-      ...cinemas.filter((x) => x.name.toLowerCase().includes(props.keyword!)),
-    ];
-  }
+  // if (props.keyword) {
+  //   filteredCinemas = [
+  //     ...cinemas.filter((x) => x.name.toLowerCase().includes(props.keyword!)),
+  //   ];
+  // }
 
   async function list() {
     setLoading(true);
@@ -303,10 +185,3 @@ function useCinema(props: useCinemaProps) {
     remove,
   };
 }
-
-interface useCinemaProps {
-  keyword?: string;
-}
-
-export interface CinemaUpsertForm
-  extends Partial<Pick<CinemaDto, "id" | "name" | "remarks">> {}
