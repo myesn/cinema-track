@@ -6,6 +6,7 @@ export default function TagManageSearch(props: TagManageSearchProps) {
     <Input
       aria-label="Search"
       isClearable
+      autoFocus
       placeholder="输入标签名..."
       labelPlacement="outside"
       startContent={<SearchIcon />}
