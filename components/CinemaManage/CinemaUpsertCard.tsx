@@ -23,27 +23,8 @@ export default function CinemaUpsertDialog(props: CinemaUpsertDialogProps) {
   });
 
   useEffect(() => {
-    console.log('useEffect', initialValues)
     formik.setValues(initialValues);
   }, [props.form]);
-
-  // const [form, setForm] = useState<CinemaUpsertForm>({
-  //   id: props.form?.id,
-  //   name: props.form?.name ?? "",
-  //   remarks: props.form?.remarks ?? "",
-  // });
-
-  // useEffect(() => {
-  //   setForm({
-  //     id: props.form?.id,
-  //     name: props.form?.name ?? "",
-  //     remarks: props.form?.remarks ?? "",
-  //   });
-  // }, [props.form]);
-
-  // function handleTextInputChange(e: ChangeEvent<HTMLInputElement>) {
-  //   setForm((x) => ({ ...x, [e.target.name]: e.target.value }));
-  // }
 
   return (
     <Card>
