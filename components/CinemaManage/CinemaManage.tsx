@@ -37,10 +37,13 @@ export default function CinemaManage(props: CinemaManageProps) {
     }
   }
 
-  async function handleUpsertClick(form: CinemaUpsertForm) {
+  async function handleUpsertClick(form: CinemaUpsertForm) {    
+    await props.onUpsert(form);
     setUpsertForm({ id: undefined, name: "", remarks: "" });
 
-    await props.onUpsert(form);
+    if(form.id){
+      setUpsertVisible(false);
+    }
   }
 
   async function handleCinemaItemAction(action: string, item: CinemaDto) {
