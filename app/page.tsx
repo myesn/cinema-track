@@ -45,6 +45,7 @@ export default function Home() {
 
   async function handleCinemaUpsert(form: CinemaUpsertForm) {
     await upsert(user!.id, form);
+    await list();
   }
 
   async function handleCinemaDelete(id: number) {
