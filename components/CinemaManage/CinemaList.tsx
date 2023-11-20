@@ -2,7 +2,7 @@
 
 import { Listbox, ListboxItem, ScrollShadow } from "@nextui-org/react";
 import CinemalListItem from "./CinemaListItem";
-import { CinemaDto } from "@/types/dto";
+import { CinemaDto } from "@/types/cinema.dto";
 import { PostgrestError } from "@supabase/supabase-js";
 
 export default function CinemaList(props: CinemaListProps) {

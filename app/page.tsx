@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import supabase from "@/supabse";
 import { Button, Input } from "@nextui-org/react";
-import { CinemaDto } from "@/types/dto";
+import { CinemaDto } from "@/types/cinema.dto";
 import { PostgrestError } from "@supabase/supabase-js";
 import ArrowPathIcon from "@/components/icons/ArrowPathIcon";
 import PlusIcon from "@/components/icons/PlusIcon";

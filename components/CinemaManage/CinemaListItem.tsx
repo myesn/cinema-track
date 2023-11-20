@@ -1,4 +1,4 @@
-import { CinemaDto } from "@/types/dto";
+import { CinemaDto } from "@/types/cinema.dto";
 import {
   Dropdown,
   DropdownTrigger,
