@@ -4,6 +4,10 @@ export default function TagManageCreateTagButton({
   text,
   onPress,
 }: TagManageCreateTagButtonProps) {
+  if(!text) {
+    return null;
+  }
+  
   return (
     <Button
       fullWidth
