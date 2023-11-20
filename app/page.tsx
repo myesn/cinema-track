@@ -117,12 +117,12 @@ export default function Home() {
         onSigninOk={handleSigninOk}
       />
 
-      <div className="flex space-x-2">
-        <Input      
+      <div className="flex space-x-2 mb-5 items-center">
+        <Input
+          size="sm"
           autoFocus
           readOnly={loading}
           placeholder="Search..."
-          className="mb-5"
           value={keyword}
           isClearable
           onValueChange={handleSearchInputChange}
