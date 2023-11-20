@@ -13,7 +13,6 @@ export default function TagManageListbox(props: TagManageListboxProps) {
       }}
       aria-label="tags listbox"
       items={props.items}
-      disallowEmptySelection={false}
       selectionMode="none"
       variant="flat"
       onSelectionChange={props.onSelectionChange}
@@ -22,6 +21,7 @@ export default function TagManageListbox(props: TagManageListboxProps) {
       {(item) => (
         <ListboxItem
           key={item.key}
+          isReadOnly={true}
           endContent={
             <TagManageListboxItemActions
               item={item}
