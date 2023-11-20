@@ -4,7 +4,7 @@ import { CinemaDto } from "@/types/cinema.dto";
 import { PostgrestError } from "@supabase/supabase-js";
 import { useState } from "react";
 
-export function useCinema() {
+export function useCinemaClient() {
   const [cinemas, setCinemas] = useState<CinemaDto[]>([]);
   const [loading, setLoading] = useState(true);
   const [upserting, setUpserting] = useState(false);

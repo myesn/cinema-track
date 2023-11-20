@@ -6,12 +6,12 @@ import { CinemaUpsertForm } from "@/components/CinemaManage/CinemaUpsertCard";
 import SignIn from "@/components/SignInModal";
 import UserBlock from "@/components/UserBlock";
 import CinemaManage from "@/components/CinemaManage/CinemaManage";
-import { useCinema } from "@/hooks/useCinema";
+import { useCinemaClient } from "@/hooks/useCinemaClient";
 
 export default function Home() {
   const [signinVisible, setSigninVisible] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const { loading, cinemas, list, upsert, remove } = useCinema();
+  const { loading, cinemas, list, upsert, remove } = useCinemaClient();
 
   useEffect(() => {
     handleSigninOk();
