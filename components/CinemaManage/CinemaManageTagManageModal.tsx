@@ -2,17 +2,17 @@ import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
 import TagManage from "../TagManage/TagManage";
 import { faker } from "@faker-js/faker";
 import { useEffect, useState } from "react";
-import { TagManageListboxItemProps } from "../TagManage/TagManageList";
+import { TagManageListItemProps } from "../TagManage/TagManageList";
 
 export default function CinemaManageTagManageModal(
   props: CinemaManageTagManageModalProps
 ) {
   const title = "标签管理";
-  const [items, setItems] = useState<TagManageListboxItemProps[]>([]);
+  const [items, setItems] = useState<TagManageListItemProps[]>([]);
 
   useEffect(() => {
     setItems(
-      faker.helpers.multiple<TagManageListboxItemProps>(
+      faker.helpers.multiple<TagManageListItemProps>(
         () => ({
           key: faker.string.nanoid(),
           name: faker.lorem.words({ min: 1, max: 3 }),
