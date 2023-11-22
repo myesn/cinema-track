@@ -15,7 +15,7 @@ import clsx from "clsx";
 export default function TagManageTable(props: TagManageTableProps) {
   const renderCell = useCallback(
     (item: TagManageTableBodyPropsRowData, columnKey: Key) => {
-      const cellValue = item[columnKey as keyof TagManageTableBodyPropsRowData];
+      // const cellValue = item[columnKey as keyof TagManageTableBodyPropsRowData];
 
       switch (columnKey) {
         case "name":
@@ -23,8 +23,8 @@ export default function TagManageTable(props: TagManageTableProps) {
             <TagManageTableBodyColName
               name={item.name}
               isEditMode={item.isEditMode}
-              onEditPress={async (newText) => {
-                props.onEditEnd && (await props.onEditEnd(item.key, newText));
+              onEditPress={async (newName) => {
+                props.onEditEnd && (await props.onEditEnd(item.key, newName));
               }}
             />
           );

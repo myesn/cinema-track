@@ -1,10 +1,10 @@
 import { Button } from "@nextui-org/react";
 
 export default function TagManageCreateTagButton({
-  text,
+  name,
   onPress,
 }: TagManageCreateTagButtonProps) {
-  if(!text) {
+  if(!name) {
     return null;
   }
   
@@ -14,15 +14,15 @@ export default function TagManageCreateTagButton({
       color="primary"
       variant="light"
       onPress={async () => {
-        onPress && await onPress(text);
+        onPress && await onPress(name);
       }}
     >
-      创建标签 “{text}”
+      创建标签 “{name}”
     </Button>
   );
 }
 
 export interface TagManageCreateTagButtonProps {
-  text: string;
-  onPress?: (text: string) => Promise<void>;
+  name: string;
+  onPress?: (name: string) => Promise<void>;
 }

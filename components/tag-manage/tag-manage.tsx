@@ -46,7 +46,7 @@ export default function TagManage(props: TagManageProps) {
       <TagManageCount number={filteredItems.length} />
 
       {!filteredItems.length && (
-        <TagManageCreateTagButton text={searchValue} onPress={props.onCreate} />
+        <TagManageCreateTagButton name={searchValue} onPress={props.onCreate} />
       )}
       {/* </div> */}
 

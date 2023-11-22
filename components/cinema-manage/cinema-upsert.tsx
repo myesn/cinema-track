@@ -20,11 +20,8 @@ export default function CinemaUpsert(props: CinemaUpsertProps) {
       formikHelpers.setSubmitting(false);
       formikHelpers.resetForm();
     },
+    enableReinitialize: true,
   });
-
-  useEffect(() => {
-    formik.setValues(initialValues);
-  }, [props.form]);
 
   return (
     <Card>

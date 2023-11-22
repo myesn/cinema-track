@@ -15,16 +15,12 @@ export default function TagManageTableBodyColName(
       formikHelpers.setSubmitting(false);
       formikHelpers.resetForm();
     },
-    // enableReinitialize: true,
+    enableReinitialize: true,
   });
 
   if (!props.isEditMode) {
     return <span className="pl-1">{props.name}</span>;
   }
-
-  // useEffect(() => {
-  //   formik.setValues(initialValues);
-  // }, [props.name]);
 
   return (
     <form className="flex items-center h-10" onSubmit={formik.handleSubmit}>

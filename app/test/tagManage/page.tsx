@@ -22,7 +22,7 @@ export default function TagManageTest() {
     );
   }, []);
 
-  console.log('page: render')
+  console.log("page: render");
 
   return (
     <>
@@ -32,8 +32,8 @@ export default function TagManageTest() {
         onSelectionChange={(keys) => {
           console.log("onSelectionChange", keys);
         }}
-        onCreate={async (text) => {
-          console.log("onCreate", text);
+        onCreate={async (name) => {
+          console.log("onCreate", name);
         }}
         onEditStart={(key) => {
           console.log("onEditStart", key);
@@ -50,14 +50,14 @@ export default function TagManageTest() {
             })
           );
         }}
-        onEditEnd={async (key, newText) => {
-          console.log("onEditEnd", key);
+        onEditEnd={async (key, newName) => {
+          console.log("onEditEnd", key, newName);
           setItems((items) =>
             items.map((item) => {
               if (item.key === key) {
                 return {
                   ...item,
-                  text: newText,
+                  name: newName,
                   isEditMode: false,
                 };
               }
