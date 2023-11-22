@@ -2,7 +2,7 @@ import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
 import TagManage from "../TagManage/TagManage";
 import { faker } from "@faker-js/faker";
 import { useEffect, useState } from "react";
-import { TagManageListboxItemProps } from "../TagManage/TagManageListbox";
+import { TagManageListboxItemProps } from "../TagManage/TagManageList";
 
 export default function CinemaManageTagManageModal(
   props: CinemaManageTagManageModalProps
@@ -15,10 +15,10 @@ export default function CinemaManageTagManageModal(
       faker.helpers.multiple<TagManageListboxItemProps>(
         () => ({
           key: faker.string.nanoid(),
-          text: faker.lorem.words({ min: 1, max: 3 }),
+          name: faker.lorem.words({ min: 1, max: 3 }),
           isEditMode: faker.datatype.boolean(),
         }),
-        { count: { min: 0, max: 59 } }
+        { count: { min: 59, max: 59 } }
       )
     );
   }, []);
@@ -53,7 +53,7 @@ export default function CinemaManageTagManageModal(
               );
             }}
             onEditEnd={async (key, newText) => {
-              console.log("onEditEnd", key);
+              console.log("onEditEnd", key, newText);
               setItems((items) =>
                 items.map((item) => {
                   if (item.key === key) {

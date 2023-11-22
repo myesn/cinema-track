@@ -1,7 +1,7 @@
 "use client";
 
 import TagManage from "@/components/TagManage/TagManage";
-import { TagManageListboxItemProps } from "@/components/TagManage/TagManageListbox";
+import { TagManageListboxItemProps } from "@/components/TagManage/TagManageList";
 import { fa, faker } from "@faker-js/faker";
 import { useEffect, useState } from "react";
 
@@ -14,7 +14,7 @@ export default function TagManageTest() {
       faker.helpers.multiple<TagManageListboxItemProps>(
         () => ({
           key: faker.string.nanoid(),
-          text: faker.lorem.words({ min: 1, max: 3 }),
+          name: faker.lorem.words({ min: 1, max: 3 }),
           isEditMode: true,
         }),
         { count: { min: 0, max: 59 } }

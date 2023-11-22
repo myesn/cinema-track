@@ -7,12 +7,12 @@ import TagManageCount from "./TagManageCount";
 import TagManageCreateTagButton, {
   TagManageCreateTagButtonProps,
 } from "./TagManageCreateTagButton";
-import TagManageListbox, { TagManageListboxProps } from "./TagManageListbox";
+import TagManageList, { TagManageListProps } from "./TagManageList";
 
 export default function TagManage(props: TagManageProps) {
   const [searchValue, setSearchValue] = useState("");
   const filteredItems = searchValue
-    ? props.items.filter((x) => x.text.includes(searchValue))
+    ? props.items.filter((x) => x.name.includes(searchValue))
     : props.items;
 
   function handleSearchValueChange(value: string) {
@@ -38,7 +38,7 @@ export default function TagManage(props: TagManageProps) {
         )}
       </div>
 
-      <TagManageListbox
+      <TagManageList
         items={filteredItems}
         onSelectionChange={props.onSelectionChange}
         onEditStart={props.onEditStart}
@@ -51,7 +51,7 @@ export default function TagManage(props: TagManageProps) {
 
 export interface TagManageProps
   extends Pick<
-    TagManageListboxProps,
+    TagManageListProps,
     "items" | "onSelectionChange" | "onEditStart" | "onEditEnd" | "onDelete"
   > {
   title: string;

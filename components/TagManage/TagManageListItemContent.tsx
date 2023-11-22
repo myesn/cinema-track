@@ -1,13 +1,12 @@
 import { Button, Input } from "@nextui-org/react";
-import EditDocumentIcon from "../icons/EditDocumentIcon";
-import { TagManageListboxItemProps } from "./TagManageListbox";
+import { TagManageListItemProps } from "./TagManageList";
 import { useFormik } from "formik";
 
-export default function TagManageListboxItemContent(
-  props: TagManageListboxItemContentProps
+export default function TagManageListItemContent(
+  props: TagManageListItemContentProps
 ) {
   const formik = useFormik({
-    initialValues: { name: props.text },
+    initialValues: { name: props.name },
     async onSubmit(values, formikHelpers) {
       props.onEditPress && (await props.onEditPress(values.name));
       formikHelpers.setSubmitting(false);
@@ -16,33 +15,34 @@ export default function TagManageListboxItemContent(
   });
 
   if (!props.isEditMode) {
-    return props.text;
+    return props.name;
   }
 
   return (
     <form className="flex items-center" onSubmit={formik.handleSubmit}>
       <Input
+        name="name"
         type="text"
         size="sm"
         isReadOnly={formik.isSubmitting}
         variant="underlined"
         className="w-48"
         value={formik.values.name}
-        onValueChange={formik.handleChange}
+        onChange={formik.handleChange}
       />
+
       <Button
-        isIconOnly
-        isLoading={formik.isSubmitting}
         color="danger"
-        aria-label="edit tag"
+        isLoading={formik.isSubmitting}
+        aria-label="save tag"
         type="submit"
       >
-        <EditDocumentIcon />
+        保存
       </Button>
     </form>
   );
 }
-interface TagManageListboxItemContentProps
-  extends Pick<TagManageListboxItemProps, "text" | "isEditMode"> {
-  onEditPress?: (text: string) => Promise<void>;
+interface TagManageListItemContentProps
+  extends Pick<TagManageListItemProps, "name" | "isEditMode"> {
+  onEditPress?: (name: string) => Promise<void>;
 }

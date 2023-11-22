@@ -1,4 +1,4 @@
-export default function TagManageCount(props: TagManageCountProps) {
+export default function TagManageListCount(props: TagManageListCountProps) {
   if (!props.number) return null;
 
   return (
@@ -8,6 +8,6 @@ export default function TagManageCount(props: TagManageCountProps) {
   );
 }
 
-export interface TagManageCountProps {
+export interface TagManageListCountProps {
   number: number;
 }

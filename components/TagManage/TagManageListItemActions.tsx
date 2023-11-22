@@ -1,9 +1,9 @@
-import { Button, Spacer } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import DeleteDocumentIcon from "../icons/DeleteDocumentIcon";
 import EditDocumentIcon from "../icons/EditDocumentIcon";
-import { TagManageListboxItemProps } from "./TagManageListbox";
+import { TagManageListItemProps } from "./TagManageList";
 
-export default function TagManageListboxItemActions(
+export default function TagManageListItemActions(
   props: TagManageListboxItemActionsProps
 ) {
   return (
@@ -34,7 +34,7 @@ export default function TagManageListboxItemActions(
   );
 }
 export interface TagManageListboxItemActionsProps {
-  item: TagManageListboxItemProps;
+  item: TagManageListItemProps;
   onEditStart?: (key: this["item"]["key"]) => void;
   onDelete?: (key: this["item"]["key"]) => void;
 }
