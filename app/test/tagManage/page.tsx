@@ -17,10 +17,12 @@ export default function TagManageTest() {
           name: faker.lorem.words({ min: 1, max: 3 }),
           isEditMode: true,
         }),
-        { count: { min: 0, max: 51 } }
+        { count: { min: 100, max: 100 } }
       )
     );
   }, []);
+
+  console.log('page: render')
 
   return (
     <>

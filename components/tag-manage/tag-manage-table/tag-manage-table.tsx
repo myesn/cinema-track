@@ -15,6 +15,8 @@ import clsx from "clsx";
 export default function TagManageTable(props: TagManageTableProps) {
   const renderCell = useCallback(
     (item: TagManageTableBodyPropsRowData, columnKey: Key) => {
+      const cellValue = item[columnKey as keyof TagManageTableBodyPropsRowData];
+
       switch (columnKey) {
         case "name":
           return (
@@ -45,9 +47,9 @@ export default function TagManageTable(props: TagManageTableProps) {
     <Table
       hideHeader
       aria-label="tags table"
-      classNames={{
-        wrapper: ["max-h-[300px]", "p-0"],
-      }}
+      // classNames={{
+      //   wrapper: ["max-h-[300px]", "p-0"],
+      // }}
     >
       <TableHeader columns={columns}>
         {(column) => (
@@ -59,7 +61,7 @@ export default function TagManageTable(props: TagManageTableProps) {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody items={props.items}>
+      <TableBody emptyContent={"no tags found"} items={props.items}>
         {(item) => (
           <TableRow key={item.key}>
             {(columnKey) => (

@@ -24,7 +24,11 @@ export default function CinemaManageTagManageModal(
   }, []);
 
   return (
-    <Modal isOpen={props.isOpen} onOpenChange={props.onClose}>
+    <Modal
+      isOpen={props.isOpen}
+      onOpenChange={props.onClose}
+      scrollBehavior={"inside"}
+    >
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">标签管理</ModalHeader>
         <ModalBody className="p-0">

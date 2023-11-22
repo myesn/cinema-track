@@ -1,6 +1,5 @@
 import { Button, Input } from "@nextui-org/react";
 import { useFormik } from "formik";
-import { useEffect } from "react";
 import { TagManageTableBodyPropsRowData } from "./tag-manage-table";
 
 export default function TagManageTableBodyColName(
@@ -16,15 +15,16 @@ export default function TagManageTableBodyColName(
       formikHelpers.setSubmitting(false);
       formikHelpers.resetForm();
     },
+    // enableReinitialize: true,
   });
-
-  useEffect(() => {
-    formik.setValues(initialValues);
-  }, [props.name]);
 
   if (!props.isEditMode) {
     return <span className="pl-1">{props.name}</span>;
   }
+
+  // useEffect(() => {
+  //   formik.setValues(initialValues);
+  // }, [props.name]);
 
   return (
     <form className="flex items-center h-10" onSubmit={formik.handleSubmit}>
