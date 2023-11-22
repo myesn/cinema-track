@@ -19,7 +19,7 @@ export default function TagManageTableBodyColName(
   });
 
   if (!props.isEditMode) {
-    return <span className="pl-1">{props.name}</span>;
+    return <span className="pl-1 truncate">{props.name}</span>;
   }
 
   return (
