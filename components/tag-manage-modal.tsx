@@ -22,11 +22,7 @@ export default function TagManageModal(props: TagManageModalProps) {
   }, []);
 
   return (
-    <Modal
-      isOpen={props.isOpen}
-      onOpenChange={props.onClose}
-      scrollBehavior={"inside"}
-    >
+    <Modal isOpen={props.isOpen} onOpenChange={props.onClose}>
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">标签管理</ModalHeader>
         <ModalBody className="p-0">

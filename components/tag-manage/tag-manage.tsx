@@ -10,6 +10,7 @@ import TagManageTable, {
   TagManageTableProps,
 } from "./tag-manage-table/tag-manage-table";
 import React from "react";
+import { ScrollShadow } from "@nextui-org/react";
 
 export default function TagManage(props: TagManageProps) {
   const [searchValue, setSearchValue] = useState("");
@@ -50,13 +51,15 @@ export default function TagManage(props: TagManageProps) {
       )}
       {/* </div> */}
 
-      <TagManageTable
-        items={filteredItems}
-        onSelectionChange={props.onSelectionChange}
-        onEditStart={props.onEditStart}
-        onEditEnd={props.onEditEnd}
-        onDelete={props.onDelete}
-      />
+      <ScrollShadow className="h-[400px]">
+        <TagManageTable
+          items={filteredItems}
+          onSelectionChange={props.onSelectionChange}
+          onEditStart={props.onEditStart}
+          onEditEnd={props.onEditEnd}
+          onDelete={props.onDelete}
+        />
+      </ScrollShadow>
     </div>
   );
 }
