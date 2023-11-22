@@ -1,4 +1,4 @@
-import { CinemaUpsertForm } from "@/components/CinemaManage/CinemaUpsertCard";
+import { CinemaUpsertForm } from "@/components/cinema-manage/cinema-upsert";
 import supabase from "@/supabse";
 import { CinemaDto } from "@/types/cinema.dto";
 import { PostgrestError } from "@supabase/supabase-js";

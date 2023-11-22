@@ -1,13 +1,13 @@
 import { Button } from "@nextui-org/react";
-import DeleteDocumentIcon from "../icons/DeleteDocumentIcon";
-import EditDocumentIcon from "../icons/EditDocumentIcon";
-import { TagManageListItemProps } from "./TagManageList";
+import DeleteDocumentIcon from "../../icons/delete-document-icon";
+import EditDocumentIcon from "../../icons/edit-document-icon";
+import { TagManageTableBodyPropsRowData } from "./tag-manage-table";
 
-export default function TagManageListItemActions(
-  props: TagManageListboxItemActionsProps
+export default function TagManageTableBodyColActions(
+  props: TagManageTableBodyColActionsProps
 ) {
   return (
-    <div>
+    <div className="flex justify-around">
       <Button
         isIconOnly
         color="danger"
@@ -33,8 +33,8 @@ export default function TagManageListItemActions(
     </div>
   );
 }
-export interface TagManageListboxItemActionsProps {
-  item: TagManageListItemProps;
+export interface TagManageTableBodyColActionsProps {
+  item: TagManageTableBodyPropsRowData;
   onEditStart?: (key: this["item"]["key"]) => void;
   onDelete?: (key: this["item"]["key"]) => void;
 }

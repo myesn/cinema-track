@@ -1,15 +1,21 @@
 import { ChangeEvent, useState } from "react";
-import { Card, CardBody, Input, Button } from "@nextui-org/react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Checkbox, Link } from "@nextui-org/react";
+import { Input, Button } from "@nextui-org/react";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "@nextui-org/react";
 import supabase from "@/supabse";
 
-export default function SignIn(props: SigninProps) {
+export default function SignInModal(props: SigninModalProps) {
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState<SigninForm>({
     email: "",
     password: "",
   });
-  const emailSuffix = '@foxmail.com';
+  const emailSuffix = "@foxmail.com";
 
   function handleTextInputChange(e: ChangeEvent<HTMLInputElement>) {
     setForm((x) => ({ ...x, [e.target.name]: e.target.value }));
@@ -25,18 +31,14 @@ export default function SignIn(props: SigninProps) {
     if (error?.message) {
       alert(error?.message);
     } else {
-      props.onSigninOk && await props.onSigninOk();
+      props.onSigninOk && (await props.onSigninOk());
     }
 
     setLoading(false);
   }
 
   return (
-    <Modal
-      isOpen={props.isOpen}
-      placement="top-center"
-      hideCloseButton={true}
-    >
+    <Modal isOpen={props.isOpen} placement="top-center" hideCloseButton={true}>
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">Sign in</ModalHeader>
 
@@ -49,7 +51,9 @@ export default function SignIn(props: SigninProps) {
             variant="bordered"
             endContent={
               <div className="pointer-events-none flex items-center">
-                <span className="text-default-400 text-small">{emailSuffix}</span>
+                <span className="text-default-400 text-small">
+                  {emailSuffix}
+                </span>
               </div>
             }
             onChange={handleTextInputChange}
@@ -68,7 +72,11 @@ export default function SignIn(props: SigninProps) {
           <Button color="danger" variant="flat" onPress={props.onClose}>
             Close
           </Button>
-          <Button color="primary" isLoading={loading} onPress={handleSigninClick}>
+          <Button
+            color="primary"
+            isLoading={loading}
+            onPress={handleSigninClick}
+          >
             Sign in
           </Button>
         </ModalFooter>
@@ -77,7 +85,7 @@ export default function SignIn(props: SigninProps) {
   );
 }
 
-export interface SigninProps {
+export interface SigninModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSigninOk: () => Promise<void>;

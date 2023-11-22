@@ -7,9 +7,9 @@ import {
   Button,
   cn,
 } from "@nextui-org/react";
-import Cog6ToothIcon from "../icons/Cog6ToothIcon";
-import EditDocumentIcon from "../icons/EditDocumentIcon";
-import DeleteDocumentIcon from "../icons/DeleteDocumentIcon";
+import Cog6ToothIcon from "../icons/cog6-tooth-icon";
+import EditDocumentIcon from "../icons/edit-document-icon";
+import DeleteDocumentIcon from "../icons/delete-document-icon";
 
 export default function CinemaListItem(props: ItemProps) {
   const cinema = props.cinema;

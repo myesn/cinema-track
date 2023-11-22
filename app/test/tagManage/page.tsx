@@ -1,23 +1,23 @@
 "use client";
 
-import TagManage from "@/components/TagManage/TagManage";
-import { TagManageListboxItemProps } from "@/components/TagManage/TagManageList";
-import { fa, faker } from "@faker-js/faker";
+import { TagManageTableBodyPropsRowData } from "@/components/tag-manage/tag-manage-table/tag-manage-table";
+import TagManage from "@/components/tag-manage/tag-manage";
+import { faker } from "@faker-js/faker";
 import { useEffect, useState } from "react";
 
 export default function TagManageTest() {
   const title = "标签管理";
-  const [items, setItems] = useState<TagManageListboxItemProps[]>([]);
+  const [items, setItems] = useState<TagManageTableBodyPropsRowData[]>([]);
 
   useEffect(() => {
     setItems(
-      faker.helpers.multiple<TagManageListboxItemProps>(
+      faker.helpers.multiple<TagManageTableBodyPropsRowData>(
         () => ({
           key: faker.string.nanoid(),
           name: faker.lorem.words({ min: 1, max: 3 }),
           isEditMode: true,
         }),
-        { count: { min: 0, max: 59 } }
+        { count: { min: 0, max: 51 } }
       )
     );
   }, []);

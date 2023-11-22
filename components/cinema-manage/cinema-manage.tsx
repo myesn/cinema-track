@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { Button, Input } from "@nextui-org/react";
 import { CinemaDto } from "@/types/cinema.dto";
-import ArrowPathIcon from "@/components/icons/ArrowPathIcon";
-import PlusIcon from "@/components/icons/PlusIcon";
-import TagIcon from "@/components/icons/TagIcon";
-import CinemaList from "@/components/CinemaManage/CinemaList";
-import CinemaUpsertDialog, {
+import ArrowPathIcon from "@/components/icons/arrow-path-icon";
+import PlusIcon from "@/components/icons/plus-icon";
+import TagIcon from "@/components/icons/tag-icon";
+import CinemaList from "@/components/cinema-manage/cinema-list";
+import CinemaUpsert, {
   CinemaUpsertForm,
-} from "@/components/CinemaManage/CinemaUpsertCard";
-import CinemaManageTagManageModal from "./CinemaManageTagManageModal";
+} from "@/components/cinema-manage/cinema-upsert";
+import CinemaManageTagManageModal from "./cinema-manage-tag-manage-modal";
 
 export default function CinemaManage(props: CinemaManageProps) {
   const [keyword, setKeyword] = useState("");
@@ -120,7 +120,7 @@ export default function CinemaManage(props: CinemaManageProps) {
       </div>
 
       {upsertVisible && (
-        <CinemaUpsertDialog
+        <CinemaUpsert
           form={upsertForm}
           onUpsert={handleUpsertClick}
           onClose={() => setUpsertVisible(false)}

@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import TagManageTitle from "./TagManageTitle";
-import TagManageSearch, { TagManageSearchProps } from "./TagManageSearch";
-import TagManageCount from "./TagManageCount";
+import TagManageSearch, { TagManageSearchProps } from "./tag-manage-search";
+import TagManageCount from "./tag-manage-count";
 import TagManageCreateTagButton, {
   TagManageCreateTagButtonProps,
-} from "./TagManageCreateTagButton";
-import TagManageList, { TagManageListProps } from "./TagManageList";
+} from "./tag-manage-create-tag-tutton";
+import TagManageTable, {
+  TagManageTableProps,
+} from "./tag-manage-table/tag-manage-table";
 
 export default function TagManage(props: TagManageProps) {
   const [searchValue, setSearchValue] = useState("");
@@ -22,23 +23,20 @@ export default function TagManage(props: TagManageProps) {
 
   return (
     <div className="w-full">
-      <div className="px-[12px]">
-        {/* <TagManageTitle text={props.title} /> */}
-        <TagManageSearch
-          value={searchValue}
-          onValueChange={handleSearchValueChange}
-        />
-        <TagManageCount number={filteredItems.length} />
+      {/* <div className="px-[12px]"> */}
+      {/* <TagManageTitle text={props.title} /> */}
+      <TagManageSearch
+        value={searchValue}
+        onValueChange={handleSearchValueChange}
+      />
+      <TagManageCount number={filteredItems.length} />
 
-        {!filteredItems.length && (
-          <TagManageCreateTagButton
-            text={searchValue}
-            onPress={props.onCreate}
-          />
-        )}
-      </div>
+      {!filteredItems.length && (
+        <TagManageCreateTagButton text={searchValue} onPress={props.onCreate} />
+      )}
+      {/* </div> */}
 
-      <TagManageList
+      <TagManageTable
         items={filteredItems}
         onSelectionChange={props.onSelectionChange}
         onEditStart={props.onEditStart}
@@ -51,7 +49,7 @@ export default function TagManage(props: TagManageProps) {
 
 export interface TagManageProps
   extends Pick<
-    TagManageListProps,
+    TagManageTableProps,
     "items" | "onSelectionChange" | "onEditStart" | "onEditEnd" | "onDelete"
   > {
   title: string;

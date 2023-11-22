@@ -1,7 +1,7 @@
 "use client";
 
 import { Listbox, ListboxItem, ScrollShadow } from "@nextui-org/react";
-import CinemalListItem from "./CinemaListItem";
+import CinemalListItem from "./cinema-list-item";
 import { CinemaDto } from "@/types/cinema.dto";
 import { PostgrestError } from "@supabase/supabase-js";
 

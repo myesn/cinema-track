@@ -1,12 +1,16 @@
 import { Button, Input } from "@nextui-org/react";
-import { TagManageListItemProps } from "./TagManageList";
 import { useFormik } from "formik";
+import { useEffect } from "react";
+import { TagManageTableBodyPropsRowData } from "./tag-manage-table";
 
-export default function TagManageListItemContent(
-  props: TagManageListItemContentProps
+export default function TagManageTableBodyColName(
+  props: TagManageTableBodyColNameProps
 ) {
+  const initialValues = {
+    name: props.name ?? "",
+  };
   const formik = useFormik({
-    initialValues: { name: props.name },
+    initialValues,
     async onSubmit(values, formikHelpers) {
       props.onEditPress && (await props.onEditPress(values.name));
       formikHelpers.setSubmitting(false);
@@ -14,19 +18,23 @@ export default function TagManageListItemContent(
     },
   });
 
+  useEffect(() => {
+    formik.setValues(initialValues);
+  }, [props.name]);
+
   if (!props.isEditMode) {
-    return props.name;
+    return <span className="pl-1">{props.name}</span>;
   }
 
   return (
-    <form className="flex items-center" onSubmit={formik.handleSubmit}>
+    <form className="flex items-center h-10" onSubmit={formik.handleSubmit}>
       <Input
         name="name"
         type="text"
         size="sm"
         isReadOnly={formik.isSubmitting}
         variant="underlined"
-        className="w-48"
+        className="w-full"
         value={formik.values.name}
         onChange={formik.handleChange}
       />
@@ -42,7 +50,7 @@ export default function TagManageListItemContent(
     </form>
   );
 }
-interface TagManageListItemContentProps
-  extends Pick<TagManageListItemProps, "name" | "isEditMode"> {
+interface TagManageTableBodyColNameProps
+  extends Pick<TagManageTableBodyPropsRowData, "name" | "isEditMode"> {
   onEditPress?: (name: string) => Promise<void>;
 }

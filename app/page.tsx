@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import supabase from "@/supabse";
-import { CinemaUpsertForm } from "@/components/CinemaManage/CinemaUpsertCard";
-import SignIn from "@/components/SignInModal";
-import UserBlock from "@/components/UserBlock";
-import CinemaManage from "@/components/CinemaManage/CinemaManage";
-import { useCinemaClient } from "@/hooks/useCinemaClient";
+import { CinemaUpsertForm } from "@/components/cinema-manage/cinema-upsert";
+import SignInModal from "@/components/sign-in-modal";
+import UserBlock from "@/components/user-block";
+import CinemaManage from "@/components/cinema-manage/cinema-manage";
+import { useCinemaClient } from "@/hooks/use-cinema-client";
 
 export default function Home() {
   const [signinVisible, setSigninVisible] = useState(false);
@@ -67,7 +67,7 @@ export default function Home() {
         />
       </div>
 
-      <SignIn
+      <SignInModal
         isOpen={signinVisible}
         onClose={() => setSigninVisible(false)}
         onSigninOk={handleSigninOk}

@@ -3,7 +3,7 @@ import { FormikHelpers, useFormik } from "formik";
 import { CinemaDto } from "@/types/cinema.dto";
 import { useEffect } from "react";
 
-export default function CinemaUpsertDialog(props: CinemaUpsertDialogProps) {
+export default function CinemaUpsert(props: CinemaUpsertProps) {
   const isUpdate = !!props.form?.id;
   const initialValues = props.form ?? {
     id: undefined,
@@ -73,7 +73,7 @@ export default function CinemaUpsertDialog(props: CinemaUpsertDialogProps) {
   );
 }
 
-export interface CinemaUpsertDialogProps {
+export interface CinemaUpsertProps {
   form: CinemaUpsertForm | null;
   onUpsert: (form: CinemaUpsertForm) => Promise<void>;
   onClose: () => void;
