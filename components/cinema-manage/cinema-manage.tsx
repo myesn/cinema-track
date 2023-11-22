@@ -10,7 +10,7 @@ import CinemaList from "@/components/cinema-manage/cinema-list";
 import CinemaUpsert, {
   CinemaUpsertForm,
 } from "@/components/cinema-manage/cinema-upsert";
-import CinemaManageTagManageModal from "./cinema-manage-tag-manage-modal";
+import TagManageModal from "../tag-manage-modal";
 
 export default function CinemaManage(props: CinemaManageProps) {
   const [keyword, setKeyword] = useState("");
@@ -135,7 +135,7 @@ export default function CinemaManage(props: CinemaManageProps) {
         onItemAction={handleCinemaItemAction}
       />
 
-      <CinemaManageTagManageModal
+      <TagManageModal
         isOpen={tagManageIsOpen}
         onClose={() => setTagManageIsOpen(false)}
       />
