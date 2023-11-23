@@ -14,22 +14,22 @@ import { ScrollShadow } from "@nextui-org/react";
 
 export default function TagManage(props: TagManageProps) {
   const [searchValue, setSearchValue] = useState("");
-  // const filteredItems = React.useMemo(() => {
-  //   let filteredTags = [...props.items];
+  const filteredItems = React.useMemo(() => {
+    let filteredTags = [...props.items];
 
-  //   if (searchValue) {
-  //     filteredTags = filteredTags.filter((x) =>
-  //       x.name.toLowerCase().includes(searchValue.toLowerCase())
-  //     );
-  //   }
-
-  //   return filteredTags;
-  // }, [props.items, searchValue]);
-  const filteredItems = searchValue
-    ? props.items.filter((x) =>
+    if (searchValue) {
+      filteredTags = filteredTags.filter((x) =>
         x.name.toLowerCase().includes(searchValue.toLowerCase())
-      )
-    : props.items;
+      );
+    }
+
+    return filteredTags;
+  }, [props.items, searchValue]);
+  // const filteredItems = searchValue
+  //   ? props.items.filter((x) =>
+  //       x.name.toLowerCase().includes(searchValue.toLowerCase())
+  //     )
+  //   : props.items;  
 
   function handleSearchValueChange(value: string) {
     setSearchValue(value);

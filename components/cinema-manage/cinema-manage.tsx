@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input, useDisclosure } from "@nextui-org/react";
 import { CinemaDto } from "@/types/cinema.dto";
 import ArrowPathIcon from "@/components/icons/arrow-path-icon";
 import PlusIcon from "@/components/icons/plus-icon";
@@ -15,7 +15,11 @@ import TagManageModal from "../tag-manage-modal";
 export default function CinemaManage(props: CinemaManageProps) {
   const [keyword, setKeyword] = useState("");
   const [upsertVisible, setUpsertVisible] = useState(false);
-  const [tagManageIsOpen, setTagManageIsOpen] = useState(false);
+  const {
+    isOpen: tagManageIsOpen,
+    onOpen: onTagManageOpen,
+    onOpenChange: onTagManageOpenChange,
+  } = useDisclosure();
   const [upsertForm, setUpsertForm] = useState<CinemaUpsertForm | null>(null);
   const filteredItems = keyword
     ? props.items.filter(
@@ -45,7 +49,7 @@ export default function CinemaManage(props: CinemaManageProps) {
   }
 
   function handleTagManageClick() {
-    setTagManageIsOpen(true);
+    onTagManageOpen();
   }
 
   async function handleUpsertClick(form: CinemaUpsertForm) {
@@ -137,7 +141,7 @@ export default function CinemaManage(props: CinemaManageProps) {
 
       <TagManageModal
         isOpen={tagManageIsOpen}
-        onClose={() => setTagManageIsOpen(false)}
+        onOpenChange={onTagManageOpenChange}
       />
     </>
   );

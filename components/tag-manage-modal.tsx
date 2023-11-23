@@ -22,7 +22,7 @@ export default function TagManageModal(props: TagManageModalProps) {
   }, []);
 
   return (
-    <Modal isOpen={props.isOpen} onOpenChange={props.onClose}>
+    <Modal isOpen={props.isOpen} onOpenChange={props.onOpenChange}>
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">标签管理</ModalHeader>
         <ModalBody className="p-0">
@@ -78,5 +78,5 @@ export default function TagManageModal(props: TagManageModalProps) {
 
 export interface TagManageModalProps {
   isOpen: boolean;
-  onClose: () => void;
+  onOpenChange: () => void;
 }
