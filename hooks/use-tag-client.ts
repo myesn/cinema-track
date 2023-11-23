@@ -8,7 +8,7 @@ export function useTagClient() {
   const [loading, setLoading] = useState(true);
   const [upserting, setUpserting] = useState(false);
   const [error, setError] = useState<PostgrestError | null>(null);
-  let filteredItems: TagDto[] = [...items];
+  // let filteredItems: TagDto[] = [...items];
 
   async function list() {
     setLoading(true);
@@ -16,7 +16,7 @@ export function useTagClient() {
     const { data, error } = await supabase()
       .from("tags")
       .select()
-      .order("updated_at", { ascending: false });
+      .order("created_at", { ascending: false });
 
     if (error) {
       setError(error);
@@ -54,7 +54,7 @@ export function useTagClient() {
     setUpserting(true);
 
     const { error } = await supabase()
-      .from("cinemas")
+      .from("tags")
       .upsert({
         id: form.id ?? undefined,
         name: form.name!,
@@ -73,7 +73,8 @@ export function useTagClient() {
     loading,
     upserting,
     error,
-    items: filteredItems,
+    // items: filteredItems,
+    items,
 
     list,
     upsert,

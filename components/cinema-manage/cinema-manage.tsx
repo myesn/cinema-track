@@ -140,6 +140,7 @@ export default function CinemaManage(props: CinemaManageProps) {
       />
 
       <TagManageModal
+        userId={props.userId}
         isOpen={tagManageIsOpen}
         onOpenChange={onTagManageOpenChange}
       />
@@ -148,6 +149,7 @@ export default function CinemaManage(props: CinemaManageProps) {
 }
 
 export interface CinemaManageProps {
+  userId: string;
   isSingin: boolean;
   listLoading: boolean;
   items: CinemaDto[];

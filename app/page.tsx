@@ -74,6 +74,7 @@ export default function Home() {
       />
 
       <CinemaManage
+        userId={user?.id ?? ""}
         isSingin={!!user}
         listLoading={loading}
         items={cinemas}

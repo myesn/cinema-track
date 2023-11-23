@@ -1,82 +1,23 @@
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
-import { faker } from "@faker-js/faker";
-import { useEffect, useState } from "react";
-import { TagManageTableBodyPropsRowData } from "./tag-manage/tag-manage-table/tag-manage-table";
-import TagManage from "./tag-manage/tag-manage";
+import TagManageContainer, {
+  TagManageContainerProps,
+} from "./containers/tag-manage-container";
 
 export default function TagManageModal(props: TagManageModalProps) {
-  const title = "标签管理";
-  const [items, setItems] = useState<TagManageTableBodyPropsRowData[]>([]);
-
-  useEffect(() => {
-    setItems(
-      faker.helpers.multiple<TagManageTableBodyPropsRowData>(
-        () => ({
-          key: faker.string.nanoid(),
-          name: faker.lorem.words({ min: 1, max: 3 }),
-          isEditMode: faker.datatype.boolean(),
-        }),
-        { count: { min: 59, max: 59 } }
-      )
-    );
-  }, []);
-
   return (
     <Modal isOpen={props.isOpen} onOpenChange={props.onOpenChange}>
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">标签管理</ModalHeader>
         <ModalBody className="p-0">
-          <TagManage
-            title={title}
-            items={items}
-            onSelectionChange={(keys) => {
-              console.log("onSelectionChange", keys);
-            }}
-            onCreate={async (name) => {
-              console.log("onCreate", name);
-            }}
-            onEditStart={(key) => {
-              console.log("onEditStart", key);
-              setItems((items) =>
-                items.map((item) => {
-                  if (item.key === key) {
-                    return {
-                      ...item,
-                      isEditMode: true,
-                    };
-                  }
-
-                  return item;
-                })
-              );
-            }}
-            onEditEnd={async (key, newName) => {
-              console.log("onEditEnd", key, newName);
-              setItems((items) =>
-                items.map((item) => {
-                  if (item.key === key) {
-                    return {
-                      ...item,
-                      name: newName,
-                      isEditMode: false,
-                    };
-                  }
-
-                  return item;
-                })
-              );
-            }}
-            onDelete={async (key) => {
-              console.log("onDelete", key);
-            }}
-          />
+          <TagManageContainer userId={props.userId} />
         </ModalBody>
       </ModalContent>
     </Modal>
   );
 }
 
-export interface TagManageModalProps {
+export interface TagManageModalProps
+  extends Pick<TagManageContainerProps, "userId"> {
   isOpen: boolean;
   onOpenChange: () => void;
 }

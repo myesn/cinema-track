@@ -13,26 +13,26 @@ import React from "react";
 import { ScrollShadow } from "@nextui-org/react";
 
 export default function TagManage(props: TagManageProps) {
-  const [searchValue, setSearchValue] = useState("");
+  const [keyword, setKeyword] = useState("");
   const filteredItems = React.useMemo(() => {
     let filteredTags = [...props.items];
 
-    if (searchValue) {
+    if (keyword) {
       filteredTags = filteredTags.filter((x) =>
-        x.name.toLowerCase().includes(searchValue.toLowerCase())
+        x.name.toLowerCase().includes(keyword.toLowerCase())
       );
     }
 
     return filteredTags;
-  }, [props.items, searchValue]);
-  // const filteredItems = searchValue
+  }, [props.items, keyword]);
+  // const filteredItems = keyword
   //   ? props.items.filter((x) =>
-  //       x.name.toLowerCase().includes(searchValue.toLowerCase())
+  //       x.name.toLowerCase().includes(keyword.toLowerCase())
   //     )
-  //   : props.items;  
+  //   : props.items;
 
   function handleSearchValueChange(value: string) {
-    setSearchValue(value);
+    setKeyword(value);
     props.onSearchValueChange && props.onSearchValueChange(value);
   }
 
@@ -41,13 +41,19 @@ export default function TagManage(props: TagManageProps) {
       {/* <div className="px-[12px]"> */}
       {/* <TagManageTitle text={props.title} /> */}
       <TagManageSearch
-        value={searchValue}
+        value={keyword}
         onValueChange={handleSearchValueChange}
       />
       <TagManageCount number={filteredItems.length} />
 
       {!filteredItems.length && (
-        <TagManageCreateTagButton name={searchValue} onPress={props.onCreate} />
+        <TagManageCreateTagButton
+          name={keyword}
+          onPress={async (name) => {
+            props.onCreate && (await props.onCreate(name));
+            setKeyword("");
+          }}
+        />
       )}
       {/* </div> */}
 
@@ -69,7 +75,7 @@ export interface TagManageProps
     TagManageTableProps,
     "items" | "onSelectionChange" | "onEditStart" | "onEditEnd" | "onDelete"
   > {
-  title: string;
+  // title: string;
   onSearchValueChange?: TagManageSearchProps["onValueChange"];
   onCreate?: TagManageCreateTagButtonProps["onPress"];
 }
