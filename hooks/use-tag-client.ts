@@ -50,7 +50,7 @@ export function useTagClient() {
     setLoading(false);
   }
 
-  async function upsert(userId: string, form: TagDto) {
+  async function upsert(userId: string, form: TagUpsertForm) {
     setUpserting(true);
 
     const { error } = await supabase()
@@ -80,4 +80,9 @@ export function useTagClient() {
     upsert,
     remove,
   };
+}
+
+export interface TagUpsertForm {
+  id?: number;
+  name: string;
 }

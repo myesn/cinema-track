@@ -5,12 +5,14 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Selection,
 } from "@nextui-org/react";
 import { columns } from "./tag-manage-table-constants";
 import { Key, useCallback } from "react";
 import TagManageTableBodyColName from "./tag-manage-table-body-col-name";
 import TagManageTableBodyColActions from "./tag-manage-table-body-col-actions";
 import clsx from "clsx";
+import { TagDto } from "@/types/tag.dto";
 
 export default function TagManageTable(props: TagManageTableProps) {
   const renderCell = useCallback(
@@ -24,7 +26,7 @@ export default function TagManageTable(props: TagManageTableProps) {
               name={item.name}
               isEditMode={item.isEditMode}
               onEditPress={async (newName) => {
-                props.onEditEnd && (await props.onEditEnd(item.key, newName));
+                props.onEditEnd && (await props.onEditEnd(item.id, newName));
               }}
             />
           );
@@ -47,6 +49,15 @@ export default function TagManageTable(props: TagManageTableProps) {
     <Table
       hideHeader
       aria-label="tags table"
+      selectionMode="multiple"
+      onSelectionChange={(keys) => {
+        const keySet = keys as Set<Key>;
+        const tags = props.items
+          .filter((x) => keySet.has(x.id.toString()))
+          .map<TagDto>(({ id, name }) => ({ id, name }));
+
+        props.onSelectionChange && props.onSelectionChange(tags);
+      }}
       // classNames={{
       //   wrapper: ["max-h-[300px]", "p-0"],
       // }}
@@ -63,7 +74,7 @@ export default function TagManageTable(props: TagManageTableProps) {
       </TableHeader>
       <TableBody emptyContent={"no tags found"} items={props.items}>
         {(item) => (
-          <TableRow key={item.key}>
+          <TableRow key={item.id}>
             {(columnKey) => (
               <TableCell
                 className={clsx(columnKey === "actions" && "w-24", "px-0")}
@@ -85,14 +96,12 @@ export interface TagManageTableProps
 
 export interface TagManageTableBodyProps {
   items: TagManageTableBodyPropsRowData[];
-  onSelectionChange?: (keys: Selection) => any;
-  onEditStart?: (key: string) => void;
-  onEditEnd?: (key: string, newName: string) => Promise<void>;
-  onDelete?: (key: string) => Promise<void>;
+  onSelectionChange?: (keys: TagDto[]) => void;
+  onEditStart?: (key: number) => void;
+  onEditEnd?: (key: number, newName: string) => Promise<void>;
+  onDelete?: (key: number) => Promise<void>;
 }
 
-export interface TagManageTableBodyPropsRowData {
-  key: string;
-  name: string;
+export interface TagManageTableBodyPropsRowData extends TagDto {
   isEditMode: boolean;
 }

@@ -125,6 +125,7 @@ export default function CinemaManage(props: CinemaManageProps) {
 
       {upsertVisible && (
         <CinemaUpsert
+          userId={props.userId}
           form={upsertForm}
           onUpsert={handleUpsertClick}
           onClose={() => setUpsertVisible(false)}

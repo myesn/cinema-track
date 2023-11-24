@@ -1,7 +1,7 @@
 import { Card, CardBody, Button, Input, Textarea } from "@nextui-org/react";
 import { FormikHelpers, useFormik } from "formik";
 import { CinemaDto } from "@/types/cinema.dto";
-import { useEffect } from "react";
+import CinemaUpsertFormTagInput from "./cinema-upsert-form-tag-input";
 
 export default function CinemaUpsert(props: CinemaUpsertProps) {
   const isUpdate = !!props.form?.id;
@@ -9,6 +9,7 @@ export default function CinemaUpsert(props: CinemaUpsertProps) {
     id: undefined,
     name: "",
     remarks: "",
+    tagIds: [],
   };
   const formik = useFormik({
     initialValues,
@@ -33,6 +34,17 @@ export default function CinemaUpsert(props: CinemaUpsertProps) {
             isReadOnly={formik.isSubmitting}
             value={formik.values.name}
             onChange={formik.handleChange}
+          />
+
+          <CinemaUpsertFormTagInput
+            userId={props.userId}
+            disabled={formik.isSubmitting}
+            onSelectionChange={(tags) => {
+              formik.setValues((values) => ({
+                ...values,
+                tagIds: tags.map((x) => x.id),
+              }));
+            }}
           />
 
           <Textarea
@@ -71,10 +83,13 @@ export default function CinemaUpsert(props: CinemaUpsertProps) {
 }
 
 export interface CinemaUpsertProps {
+  userId: string;
   form: CinemaUpsertForm | null;
   onUpsert: (form: CinemaUpsertForm) => Promise<void>;
   onClose: () => void;
 }
 
 export interface CinemaUpsertForm
-  extends Partial<Pick<CinemaDto, "id" | "name" | "remarks">> {}
+  extends Partial<Pick<CinemaDto, "id" | "name" | "remarks">> {
+  tagIds?: number[];
+}

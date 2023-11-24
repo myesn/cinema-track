@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import TagManage from "../tag-manage/tag-manage";
+import TagManage, { TagManageProps } from "../tag-manage/tag-manage";
 import { TagManageTableBodyPropsRowData } from "../tag-manage/tag-manage-table/tag-manage-table";
 import { useTagClient } from "@/hooks/use-tag-client";
 
@@ -17,7 +17,7 @@ export default function TagManageContainer(props: TagManageContainerProps) {
   useEffect(() => {
     setRows(() => [
       ...items.map<TagManageTableBodyPropsRowData>((x) => ({
-        key: x.id!.toString(),
+        id: x.id,
         name: x.name,
         isEditMode: false,
       })),
@@ -28,7 +28,7 @@ export default function TagManageContainer(props: TagManageContainerProps) {
     <TagManage
       items={rows}
       onSelectionChange={(keys) => {
-        console.log("onSelectionChange", keys);
+        props.onSelectionChange && props.onSelectionChange(keys);
       }}
       onCreate={async (name) => {
         await upsert(props.userId, { name });
@@ -38,7 +38,7 @@ export default function TagManageContainer(props: TagManageContainerProps) {
         console.log("onEditStart", key);
         setRows((rows) =>
           rows.map((row) => {
-            if (row.key === key) {
+            if (row.id === key) {
               return {
                 ...row,
                 isEditMode: true,
@@ -52,12 +52,12 @@ export default function TagManageContainer(props: TagManageContainerProps) {
       onEditEnd={async (key, newName) => {
         console.log("onEditEnd", key, newName);
 
-        await upsert(props.userId, { id: +key, name: newName });
+        await upsert(props.userId, { id: key, name: newName });
         await list();
 
         setRows((rows) =>
           rows.map((row) => {
-            if (row.key === key) {
+            if (row.id === key) {
               return {
                 ...row,
                 name: newName,
@@ -78,6 +78,7 @@ export default function TagManageContainer(props: TagManageContainerProps) {
   );
 }
 
-export interface TagManageContainerProps {
+export interface TagManageContainerProps
+  extends Pick<TagManageProps, "onSelectionChange"> {
   userId: string;
 }

@@ -13,7 +13,7 @@ export default function TagManageTest() {
     setItems(
       faker.helpers.multiple<TagManageTableBodyPropsRowData>(
         () => ({
-          key: faker.string.nanoid(),
+          id: faker.number.int(),
           name: faker.lorem.words({ min: 1, max: 3 }),
           isEditMode: true,
         }),
@@ -27,7 +27,7 @@ export default function TagManageTest() {
   return (
     <>
       <TagManage
-        title={title}
+        // title={title}
         items={items}
         onSelectionChange={(keys) => {
           console.log("onSelectionChange", keys);
@@ -39,7 +39,7 @@ export default function TagManageTest() {
           console.log("onEditStart", key);
           setItems((items) =>
             items.map((item) => {
-              if (item.key === key) {
+              if (item.id === key) {
                 return {
                   ...item,
                   isEditMode: true,
@@ -54,7 +54,7 @@ export default function TagManageTest() {
           console.log("onEditEnd", key, newName);
           setItems((items) =>
             items.map((item) => {
-              if (item.key === key) {
+              if (item.id === key) {
                 return {
                   ...item,
                   name: newName,

@@ -69,7 +69,7 @@ export function useCinemaClient() {
   async function upsert(userId: string, form: CinemaUpsertForm) {
     setUpserting(true);
 
-    const { error } = await supabase()
+    const { data, error } = await supabase()
       .from("cinemas")
       .upsert({
         id: form.id ?? undefined,
@@ -79,6 +79,17 @@ export function useCinemaClient() {
         creator_id: userId,
       })
       .select();
+
+    const [item] = data as { id: number }[];
+    const relations = form.tagIds?.map((tagId) => ({
+      cinema_id: item.id,
+      tag_id: tagId,
+      creator_id: userId,
+    }));
+    if (relations && relations.length) {
+      await supabase().from("cinemas_tags").insert(relations);
+    }
+
     if (error?.message) {
       //setError(error);
       alert(error.message);

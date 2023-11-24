@@ -13,7 +13,7 @@ export default function TagManageTableBodyColActions(
         color="danger"
         aria-label="edit tag"
         onPress={() => {
-          props.onEditStart && props.onEditStart(props.item.key);
+          props.onEditStart && props.onEditStart(props.item.id);
         }}
       >
         <EditDocumentIcon />
@@ -25,7 +25,7 @@ export default function TagManageTableBodyColActions(
         variant="faded"
         aria-label="delete tag"
         onPress={() => {
-          props.onDelete && props.onDelete(props.item.key);
+          props.onDelete && props.onDelete(props.item.id);
         }}
       >
         <DeleteDocumentIcon />
@@ -35,6 +35,6 @@ export default function TagManageTableBodyColActions(
 }
 export interface TagManageTableBodyColActionsProps {
   item: TagManageTableBodyPropsRowData;
-  onEditStart?: (key: this["item"]["key"]) => void;
-  onDelete?: (key: this["item"]["key"]) => void;
+  onEditStart?: (id: this["item"]["id"]) => void;
+  onDelete?: (id: this["item"]["id"]) => void;
 }
