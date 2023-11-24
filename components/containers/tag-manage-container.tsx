@@ -22,8 +22,6 @@ export default function TagManageContainer(props: TagManageContainerProps) {
         isEditMode: false,
       })),
     ]);
-
-    console.log(items);
   }, [items]);
 
   return (
