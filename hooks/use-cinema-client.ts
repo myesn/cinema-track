@@ -106,9 +106,10 @@ export function useCinemaClient() {
   }
 
   return {
-    listing,
-    listError,
     items: filteredItems,
+
+    listing,
+    listError,    
     list,
 
     upserting,
