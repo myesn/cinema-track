@@ -1,4 +1,3 @@
-import { CinemaDto } from "@/types/cinema.dto";
 import {
   Dropdown,
   DropdownTrigger,
@@ -11,25 +10,13 @@ import Cog6ToothIcon from "../icons/cog6-tooth-icon";
 import EditDocumentIcon from "../icons/edit-document-icon";
 import DeleteDocumentIcon from "../icons/delete-document-icon";
 
-export default function CinemaListItem(props: ItemProps) {
-  const cinema = props.cinema;
-  return (
-    <div className="flex items-center space-x-2">
-      <p color="violet" className="flex-1 font-medium truncate">
-        {cinema.name}
-      </p>
-      <p className="flex-1 truncate">{cinema.remarks}</p>
-      <p className="flex-none text-right">{cinema.updated}</p>
-      {props.showActions && (
-        <ActionDropDownButton
-          onAction={(action) => props.onAction(action, cinema)}
-        />
-      )}
-    </div>
-  );
-}
+export default function CinemaTableBodyColActions(
+  props: CinemaTableBodyColActionsProps
+) {
+  if (!props.showActions) {
+    return null;
+  }
 
-function ActionDropDownButton(props: ActionDropDownButtonProps) {
   const iconClasses =
     "text-xl text-default-500 pointer-events-none flex-shrink-0";
 
@@ -40,13 +27,20 @@ function ActionDropDownButton(props: ActionDropDownButtonProps) {
           size="sm"
           isIconOnly
           radius="full"
-          className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
+          className={cn(
+            "bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg",
+            props.classNames
+          )}
         >
-          {/* Actions */}
           <Cog6ToothIcon />
         </Button>
       </DropdownTrigger>
-      <DropdownMenu aria-label="Actions" onAction={props.onAction}>
+      <DropdownMenu
+        aria-label="Actions"
+        onAction={async (key) => {
+          await props.onAction(key as string);
+        }}
+      >
         <DropdownItem
           key="edit"
           startContent={<EditDocumentIcon className={iconClasses} />}
@@ -69,12 +63,8 @@ function ActionDropDownButton(props: ActionDropDownButtonProps) {
   );
 }
 
-export interface ItemProps {
+interface CinemaTableBodyColActionsProps {
   showActions: boolean;
-  cinema: CinemaDto;
-  onAction: (action: string, cinema: CinemaDto) => Promise<void>;
-}
-
-interface ActionDropDownButtonProps {
-  onAction: (action: any) => Promise<void>;
+  classNames?: string;
+  onAction: (action: string) => Promise<void>;
 }

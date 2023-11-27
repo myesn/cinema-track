@@ -6,7 +6,7 @@ import { CinemaDto } from "@/types/cinema.dto";
 import ArrowPathIcon from "@/components/icons/arrow-path-icon";
 import PlusIcon from "@/components/icons/plus-icon";
 import TagIcon from "@/components/icons/tag-icon";
-import CinemaList from "@/components/cinema-manage/cinema-list";
+import CinemaTable from "@/components/cinema-manage/cinema-table";
 import CinemaUpsert, {
   CinemaUpsertForm,
 } from "@/components/cinema-manage/cinema-upsert";
@@ -140,7 +140,7 @@ export default function CinemaManage(props: CinemaManageProps) {
         />
       )}
 
-      <CinemaList
+      <CinemaTable
         loading={props.listing}
         items={filteredItems}
         keyword={keyword}

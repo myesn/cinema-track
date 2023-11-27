@@ -1,9 +1,6 @@
-export const columns: TagManageTableHeaderColumn[] = [
-  { key: "name", name: "标签" },
-  { key: "actions", name: "操作" },
-];
+import { TableHeaderColumn } from "@/components/types";
 
-export interface TagManageTableHeaderColumn {
-  key: string;
-  name: string;
-}
+export const columns: TableHeaderColumn[] = [
+  { key: "name", label: "标签" },
+  { key: "actions", label: "操作" },
+];

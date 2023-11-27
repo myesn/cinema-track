@@ -70,7 +70,7 @@ export default function TagManageTable(props: TagManageTableProps) {
             key={column.key}
             align={column.key === "actions" ? "center" : "start"}
           >
-            {column.name}
+            {column.label}
           </TableColumn>
         )}
       </TableHeader>
