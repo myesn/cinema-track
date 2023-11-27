@@ -6,9 +6,15 @@ import { useState } from "react";
 
 export function useCinemaClient() {
   const [items, setItems] = useState<CinemaDto[]>([]);
-  const [loading, setLoading] = useState(true);
+
+  const [listing, setListing] = useState(true);
   const [upserting, setUpserting] = useState(false);
-  const [error, setError] = useState<PostgrestError | null>(null);
+  const [removing, setRemoving] = useState(false);
+
+  const [listError, setListError] = useState<PostgrestError | null>(null);
+  const [upsertError, setUpsertError] = useState<PostgrestError | null>(null);
+  const [removeError, setRemoveError] = useState<PostgrestError | null>(null);
+
   let filteredItems: CinemaDto[] = [...items];
 
   // 立即执行
@@ -25,7 +31,8 @@ export function useCinemaClient() {
   // }
 
   async function list() {
-    setLoading(true);
+    setListing(true);
+    setListError(null);
 
     const { data, error } = await supabase()
       .from("cinemas")
@@ -33,7 +40,7 @@ export function useCinemaClient() {
       .order("updated_at", { ascending: false });
 
     if (error) {
-      setError(error);
+      setListError(error);
     }
 
     if (!error && data) {
@@ -47,27 +54,27 @@ export function useCinemaClient() {
       setItems([...items]);
     }
 
-    setLoading(false);
+    setListing(false);
   }
 
   async function remove(id: number) {
     if (!id) return;
 
-    setLoading(true);
+    setRemoving(true);
 
     const { error } = await supabase().from("cinemas").delete().eq("id", id);
     if (error) {
-      //setError(error);
-      alert(error.message);
+      setRemoveError(error);
     } else {
       setItems((items) => [...items.filter((x) => x.id !== id)]);
     }
 
-    setLoading(false);
+    setRemoving(false);
   }
 
   async function upsert(userId: string, form: CinemaUpsertForm) {
     setUpserting(true);
+    setUpsertError(null);
 
     const { data, error } = await supabase()
       .from("cinemas")
@@ -80,6 +87,11 @@ export function useCinemaClient() {
       })
       .select();
 
+    if (error?.message) {
+      setUpsertError(error);
+      return;
+    }
+
     const [item] = data as { id: number }[];
     const relations = form.tagIds?.map((tagId) => ({
       cinema_id: item.id,
@@ -90,22 +102,21 @@ export function useCinemaClient() {
       await supabase().from("cinemas_tags").insert(relations);
     }
 
-    if (error?.message) {
-      //setError(error);
-      alert(error.message);
-    }
-
     setUpserting(false);
   }
 
   return {
-    loading,
-    upserting,
-    error,
+    listing,
+    listError,
     items: filteredItems,
-
     list,
+
+    upserting,
+    upsertError,
     upsert,
+
+    removing,
+    removeError,
     remove,
   };
 }
