@@ -5,10 +5,9 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Selection,
 } from "@nextui-org/react";
 import { columns } from "./tag-manage-table-constants";
-import { Key, useCallback } from "react";
+import { Key, useCallback, useMemo } from "react";
 import TagManageTableBodyColName from "./tag-manage-table-body-col-name";
 import TagManageTableBodyColActions from "./tag-manage-table-body-col-actions";
 import clsx from "clsx";
@@ -42,6 +41,7 @@ export default function TagManageTable(props: TagManageTableProps) {
     },
     []
   );
+  const classNames = useMemo(() => ({ wrapper: ["max-h-[300px]", "p-0"] }), []);
 
   if (!props.items.length) return null;
 
@@ -58,9 +58,7 @@ export default function TagManageTable(props: TagManageTableProps) {
 
         props.onSelectionChange && props.onSelectionChange(tags);
       }}
-      // classNames={{
-      //   wrapper: ["max-h-[300px]", "p-0"],
-      // }}
+      classNames={classNames}
     >
       <TableHeader columns={columns}>
         {(column) => (
