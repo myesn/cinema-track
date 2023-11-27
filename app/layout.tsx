@@ -11,13 +11,15 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "cinema records",
   description: "myEsn2E9's cinema records",
-  // 非常重要，不设置会导致出现横向滚动条
-  viewport: {
-    width: "device-width",
-    minimumScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
+};
+
+// 非常重要，不设置会导致出现横向滚动条
+// https://nextjs.org/docs/app/api-reference/functions/generate-viewport#width-initialscale-and-maximumscale
+export const viewport = {
+  width: "device-width",
+  minimumScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({
