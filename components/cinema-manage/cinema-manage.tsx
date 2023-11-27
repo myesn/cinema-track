@@ -33,10 +33,6 @@ export default function CinemaManage(props: CinemaManageProps) {
     setKeyword(value);
   }
 
-  async function handleRefreshClick() {
-    await props.onRefresh();
-  }
-
   function handleCreateClick() {
     setUpsertVisible(true);
 
@@ -54,8 +50,15 @@ export default function CinemaManage(props: CinemaManageProps) {
 
   async function handleUpsertClick(form: CinemaUpsertForm) {
     await props.onUpsert(form);
+    if (props.upsertError) {
+      alert(props.upsertError);
+      return false;
+    }
+
     setUpsertForm({ id: undefined, name: "", remarks: "" });
     setUpsertVisible(false);
+
+    return true;
   }
 
   async function handleCinemaItemAction(action: string, item: CinemaDto) {
@@ -72,6 +75,11 @@ export default function CinemaManage(props: CinemaManageProps) {
     } else if (action === "delete") {
       if (confirm("确认删除？")) {
         await props.onDelete(item.id);
+
+        if (props.deleteError) {
+          alert(props.deleteError);
+          return;
+        }
       }
     }
   }
@@ -82,7 +90,7 @@ export default function CinemaManage(props: CinemaManageProps) {
         <Input
           size="sm"
           autoFocus
-          readOnly={props.listLoading}
+          readOnly={props.listing}
           placeholder="Search..."
           value={keyword}
           isClearable
@@ -91,16 +99,16 @@ export default function CinemaManage(props: CinemaManageProps) {
         />
 
         <Button
-          isLoading={props.listLoading}
+          isLoading={props.listing}
           isIconOnly
           color="secondary"
           aria-label="Refresh"
-          onPress={handleRefreshClick}
+          onPress={props.onRefresh}
         >
-          {!props.listLoading && <ArrowPathIcon />}
+          {!props.listing && <ArrowPathIcon />}
         </Button>
 
-        {props.isSingin && (
+        {!!props.userId && (
           <Button
             isIconOnly
             color="primary"
@@ -111,7 +119,7 @@ export default function CinemaManage(props: CinemaManageProps) {
           </Button>
         )}
 
-        {props.isSingin && (
+        {!!props.userId && (
           <Button
             isIconOnly
             color="primary"
@@ -133,10 +141,10 @@ export default function CinemaManage(props: CinemaManageProps) {
       )}
 
       <CinemaList
-        loading={props.listLoading}
+        loading={props.listing}
         items={filteredItems}
         keyword={keyword}
-        showActions={props.isSingin}
+        showActions={!!props.userId}
         onItemAction={handleCinemaItemAction}
       />
 
@@ -151,9 +159,15 @@ export default function CinemaManage(props: CinemaManageProps) {
 
 export interface CinemaManageProps {
   userId: string;
-  isSingin: boolean;
-  listLoading: boolean;
   items: CinemaDto[];
+
+  listing: boolean;
+  upserting: boolean;
+  deleting: boolean;
+
+  listError?: string;
+  upsertError?: string;
+  deleteError?: string;
 
   onRefresh: () => Promise<void>;
   onUpsert: (item: CinemaUpsertForm) => Promise<void>;

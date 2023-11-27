@@ -40,7 +40,10 @@ export function useCinemaClient() {
       .order("updated_at", { ascending: false });
 
     if (error) {
+      setListing(false);
       setListError(error);
+
+      return;
     }
 
     if (!error && data) {
@@ -64,10 +67,13 @@ export function useCinemaClient() {
 
     const { error } = await supabase().from("cinemas").delete().eq("id", id);
     if (error) {
+      setRemoving(false);
       setRemoveError(error);
-    } else {
-      setItems((items) => [...items.filter((x) => x.id !== id)]);
+
+      return;
     }
+
+    setItems((items) => [...items.filter((x) => x.id !== id)]);
 
     setRemoving(false);
   }
@@ -88,7 +94,9 @@ export function useCinemaClient() {
       .select();
 
     if (error?.message) {
+      setUpserting(false);
       setUpsertError(error);
+
       return;
     }
 
@@ -109,7 +117,7 @@ export function useCinemaClient() {
     items: filteredItems,
 
     listing,
-    listError,    
+    listError,
     list,
 
     upserting,

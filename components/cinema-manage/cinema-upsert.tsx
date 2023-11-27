@@ -17,9 +17,12 @@ export default function CinemaUpsert(props: CinemaUpsertProps) {
       values: CinemaUpsertForm,
       formikHelpers: FormikHelpers<CinemaUpsertForm>
     ) {
-      await props.onUpsert(values);
+      const isOk = await props.onUpsert(values);
       formikHelpers.setSubmitting(false);
-      formikHelpers.resetForm();
+
+      if (isOk) {
+        formikHelpers.resetForm();
+      }
     },
     enableReinitialize: true,
   });
@@ -85,7 +88,7 @@ export default function CinemaUpsert(props: CinemaUpsertProps) {
 export interface CinemaUpsertProps {
   userId: string;
   form: CinemaUpsertForm | null;
-  onUpsert: (form: CinemaUpsertForm) => Promise<void>;
+  onUpsert: (form: CinemaUpsertForm) => Promise<boolean>;
   onClose: () => void;
 }
 

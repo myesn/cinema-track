@@ -8,7 +8,21 @@ import { useCinemaClient } from "@/hooks/use-cinema-client";
 export default function CinemaManageContainer(
   props: CinemaManageContainerProps
 ) {
-  const { listing, items: cinemas, list, upsert, remove } = useCinemaClient();
+  const {
+    items,
+
+    listing,
+    listError,
+    list,
+
+    upserting,
+    upsertError,
+    upsert,
+
+    removing,
+    removeError,
+    remove,
+  } = useCinemaClient();
 
   useEffect(() => {
     list();
@@ -20,7 +34,10 @@ export default function CinemaManageContainer(
 
   async function handleCinemaUpsert(form: CinemaUpsertForm) {
     await upsert(props.userId!, form);
-    await list();
+
+    if (!upsertError) {
+      await list();
+    }
   }
 
   async function handleCinemaDelete(id: number) {
@@ -30,9 +47,13 @@ export default function CinemaManageContainer(
   return (
     <CinemaManage
       userId={props.userId ?? ""}
-      isSingin={!!props.userId}
-      listLoading={listing}
-      items={cinemas}
+      items={items}
+      listing={listing}
+      upserting={upserting}
+      deleting={removing}
+      listError={listError?.message}
+      upsertError={upsertError?.message}
+      deleteError={removeError?.message}
       onRefresh={handleCinemaRefresh}
       onUpsert={handleCinemaUpsert}
       onDelete={handleCinemaDelete}
