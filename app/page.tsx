@@ -2,20 +2,16 @@
 
 import { useEffect, useState } from "react";
 import supabase from "@/supabse";
-import { CinemaUpsertForm } from "@/components/cinema-manage/cinema-upsert";
 import SignInModal from "@/components/sign-in-modal";
 import UserBlock from "@/components/user-block";
-import CinemaManage from "@/components/cinema-manage/cinema-manage";
-import { useCinemaClient } from "@/hooks/use-cinema-client";
+import CinemaManageContainer from "@/components/containers/cinema-manage-container";
 
 export default function Home() {
   const [signinVisible, setSigninVisible] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const { loading, items: cinemas, list, upsert, remove } = useCinemaClient();
 
   useEffect(() => {
     handleSigninOk();
-    list();
   }, []);
 
   async function handleSigninOk() {
@@ -36,19 +32,6 @@ export default function Home() {
   async function handleSignoutClick() {
     await supabase().auth.signOut();
     setUser(null);
-  }
-
-  async function handleCinemaRefresh() {
-    await list();
-  }
-
-  async function handleCinemaUpsert(form: CinemaUpsertForm) {
-    await upsert(user!.id, form);
-    await list();
-  }
-
-  async function handleCinemaDelete(id: number) {
-    await remove(id);
   }
 
   return (
@@ -73,15 +56,7 @@ export default function Home() {
         onSigninOk={handleSigninOk}
       />
 
-      <CinemaManage
-        userId={user?.id ?? ""}
-        isSingin={!!user}
-        listLoading={loading}
-        items={cinemas}
-        onRefresh={handleCinemaRefresh}
-        onUpsert={handleCinemaUpsert}
-        onDelete={handleCinemaDelete}
-      />
+      <CinemaManageContainer userId={user?.id} />
     </main>
   );
 }
