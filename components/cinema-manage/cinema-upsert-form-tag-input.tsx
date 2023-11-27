@@ -30,6 +30,8 @@ export default function CinemaUpsertFormTagInput(
         <PopoverContent>
           <TagManageContainer
             userId={props.userId}
+            editable={false}
+            deletable={false}
             onSelectionChange={(tags) => {
               setTags(tags);
               props.onSelectionChange(tags);

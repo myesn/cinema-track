@@ -57,6 +57,9 @@ export default function TagManage(props: TagManageProps) {
       {/* </div> */}
 
       <TagManageTable
+        selectable={props.selectable}
+        editable={props.editable}
+        deletable={props.deletable}
         items={filteredItems}
         onSelectionChange={props.onSelectionChange}
         onEditStart={props.onEditStart}
@@ -70,7 +73,14 @@ export default function TagManage(props: TagManageProps) {
 export interface TagManageProps
   extends Pick<
     TagManageTableProps,
-    "items" | "onSelectionChange" | "onEditStart" | "onEditEnd" | "onDelete"
+    | "selectable"
+    | "editable"
+    | "deletable"
+    | "items"
+    | "onSelectionChange"
+    | "onEditStart"
+    | "onEditEnd"
+    | "onDelete"
   > {
   // title: string;
   onSearchValueChange?: TagManageSearchProps["onValueChange"];

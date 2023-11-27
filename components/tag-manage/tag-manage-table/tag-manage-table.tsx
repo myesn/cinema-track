@@ -9,7 +9,9 @@ import {
 import { columns } from "./tag-manage-table-constants";
 import { Key, useCallback, useMemo } from "react";
 import TagManageTableBodyColName from "./tag-manage-table-body-col-name";
-import TagManageTableBodyColActions from "./tag-manage-table-body-col-actions";
+import TagManageTableBodyColActions, {
+  TagManageTableBodyColActionsProps,
+} from "./tag-manage-table-body-col-actions";
 import clsx from "clsx";
 import { TagDto } from "@/types/tag.dto";
 
@@ -32,6 +34,8 @@ export default function TagManageTable(props: TagManageTableProps) {
         case "actions":
           return (
             <TagManageTableBodyColActions
+              editable={props.editable}
+              deletable={props.deletable}
               item={item}
               onEditStart={props.onEditStart}
               onDelete={props.onDelete}
@@ -49,7 +53,7 @@ export default function TagManageTable(props: TagManageTableProps) {
     <Table
       hideHeader
       aria-label="tags table"
-      selectionMode="multiple"
+      selectionMode={props.selectable ? "multiple" : "none"}
       onSelectionChange={(keys) => {
         const keySet = keys as Set<Key>;
         const tags = props.items
@@ -88,12 +92,16 @@ export default function TagManageTable(props: TagManageTableProps) {
 }
 export interface TagManageTableProps
   extends Pick<
-    TagManageTableBodyProps,
-    "items" | "onSelectionChange" | "onEditStart" | "onEditEnd" | "onDelete"
-  > {}
+      TagManageTableBodyProps,
+      "items" | "onSelectionChange" | "onEditStart" | "onEditEnd" | "onDelete"
+    >,
+    Pick<TagManageTableBodyColActionsProps, "editable" | "deletable"> {
+  selectable: boolean;
+}
 
 export interface TagManageTableBodyProps {
   items: TagManageTableBodyPropsRowData[];
+
   onSelectionChange?: (keys: TagDto[]) => void;
   onEditStart?: (key: number) => void;
   onEditEnd?: (key: number, newName: string) => Promise<void>;

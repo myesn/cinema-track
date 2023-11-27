@@ -9,7 +9,7 @@ export default function TagManageModal(props: TagManageModalProps) {
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">标签管理</ModalHeader>
         <ModalBody className="p-0">
-          <TagManageContainer userId={props.userId} />
+          <TagManageContainer userId={props.userId} selectable={false} />
         </ModalBody>
       </ModalContent>
     </Modal>

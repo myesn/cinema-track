@@ -26,6 +26,9 @@ export default function TagManageContainer(props: TagManageContainerProps) {
 
   return (
     <TagManage
+      selectable={props.selectable ?? true}
+      editable={props.editable ?? true}
+      deletable={props.deletable ?? true}
       items={rows}
       onSelectionChange={(keys) => {
         props.onSelectionChange && props.onSelectionChange(keys);
@@ -79,6 +82,11 @@ export default function TagManageContainer(props: TagManageContainerProps) {
 }
 
 export interface TagManageContainerProps
-  extends Pick<TagManageProps, "onSelectionChange"> {
+  extends Partial<
+    Pick<
+      TagManageProps,
+      "selectable" | "editable" | "deletable" | "onSelectionChange"
+    >
+  > {
   userId: string;
 }
